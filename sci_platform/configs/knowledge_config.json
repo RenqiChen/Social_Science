@@ -1,0 +1,23 @@
+[
+    {
+      "knowledge_id": "professional paper",
+      "emb_model_config_name": "ollama_embedding-mxbai-embed-large",
+      "data_processing": [
+        {
+          "load_data": {
+            "loader": {
+              "create_object": true,
+              "module": "llama_index.core",
+              "class": "SimpleDirectoryReader",
+              "init_args": {
+                "input_dir": "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/books",
+                "required_exts": [
+                  ".txt"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]

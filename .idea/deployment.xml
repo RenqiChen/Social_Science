@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="beijing" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="beijing">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/bingxing2/ailab/suhaoyang/shy/Social-Science" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
