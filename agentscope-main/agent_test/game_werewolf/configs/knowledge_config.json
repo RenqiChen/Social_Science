@@ -1,0 +1,46 @@
+[
+    {
+      "knowledge_id": "professional paper_2",
+      "emb_model_config_name": "llama3_emb_config",
+      "chunk_size": 2048,
+      "chunk_overlap": 40,
+      "data_processing": [
+        {
+          "load_data": {
+            "loader": {
+              "create_object": true,
+              "module": "llama_index.core",
+              "class": "SimpleDirectoryReader",
+              "init_args": {
+                "input_dir": "/home/bingxing2/ailab/scxlab0066/SciSci/Agentscope/agentscope-main/ours/agent_test/books",
+                "required_exts": [
+                  ".txt"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "knowledge_id": "professional paper",
+      "emb_model_config_name": "llama3_emb_config",
+      "data_processing": [
+        {
+          "load_data": {
+            "loader": {
+              "create_object": true,
+              "module": "llama_index.core",
+              "class": "SimpleDirectoryReader",
+              "init_args": {
+                "input_dir": "/home/bingxing2/ailab/scxlab0066/SciSci/Agentscope/agentscope-main/ours/agent_test/books",
+                "required_exts": [
+                  ".txt"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
