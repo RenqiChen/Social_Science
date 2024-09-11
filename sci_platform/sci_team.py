@@ -6,6 +6,7 @@ class Team:
         # attrs
         self.team_name = team_name
         self.state = 1
+        self.epoch = -1
         self.teammate = []
         self.memory = TemporaryMemory(None)
         self.topic = None
@@ -14,6 +15,16 @@ class Team:
         self.citation_id = None
         self.self_review = None
         self.paper_review = None
+        
+        # state log
+        self.state_log = {
+            1: 'WAIT',
+            2: 'TOPIC',
+            3: 'IDEA',
+            4: 'ABSTRACT',
+            5: 'REVIEW',
+            6: 'FINISH'
+        }
 
         # init log file
         self.log_file = f"logs/{self.team_name}_dialogue.log"
@@ -30,7 +41,7 @@ class Team:
         self.logger = logger.bind(team_name=self.team_name)
 
     def log_dialogue(self, name, content):
-        self.logger.info(name + ':' + content)
+        self.logger.info(f'Epoch:{self.epoch} | {self.state_log[self.state]} | {name}:{content}')
 
 if __name__=='__main__':
     team1 = Team('LPL')
