@@ -124,7 +124,7 @@ def team_description_detail(team: list, agent_list: list) -> str:
             team_list = team[team_index].teammate
             output_string += f"The Team{i} includes team members: {team_list}. "
             i=i+1
-    output_string_before = f"You are currently a member of {i} teams. "
+    output_string_before = f"You are currently a member of {i-1} teams. "
     # for agent in agent_list:
     #     if agent.name in independent_list:
     #         output_string += f"For {agent.name}, "
