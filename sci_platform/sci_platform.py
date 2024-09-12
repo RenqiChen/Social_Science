@@ -34,6 +34,8 @@ from agentscope.pipelines.functional import sequentialpipeline
 
 import faiss
 
+from sci_team import Team
+
 class Platform:
     r"""Platform."""
 
@@ -113,13 +115,16 @@ class Platform:
             self.id2agent[agent.name] = agent
         # team pool 
         self.team_pool = []
+        agent_id = 1
         for agent in self.agent_pool[:self.agent_num]:
             team_agent = []
             team_index = []
             team_index.append(agent.name)
-            team_dic = {"state": 1, "teammate": team_index, "memory": TemporaryMemory(None), "topic": None, "idea": None, "abstract": None, "citation_id": None, "self_review":None, "paper_review": None}
+            team_dic = Team(str(agent_id)+','+str(1))
+            team_dic.teammate = team_index
             team_agent.append(team_dic)
             self.team_pool.append(team_agent)
+            agent_id = agent_id + 1
 
 
         # init hint
@@ -226,7 +231,7 @@ class Platform:
             # when action2, the agent choose to act independently
             if int(match.group(1))==2:
                 print("Single Agent Independently!")
-                team_list[agent_index][0]['state']=2
+                team_list[agent_index][0].state=2
                 continue
 
             team_candidate = []
@@ -259,7 +264,7 @@ class Platform:
             is_contained = False
             for agent_list in team_list:
                 for sublist in agent_list:
-                    if set(sublist['teammate']) == set(team_candidate_after) and sublist['state'] != 6:
+                    if set(sublist.teammate) == set(team_candidate_after) and sublist.state != 6:
                         is_contained = True
                         break
                 if is_contained == True:
@@ -287,16 +292,18 @@ class Platform:
             is_contained = False
             for agent_list in team_list:
                 for sublist in agent_list:
-                    if set(sublist['teammate']) == set(team_index) and sublist['state'] != 6:
+                    if set(sublist.teammate) == set(team_index) and sublist.state != 6:
                         is_contained = True
                         break
                 if is_contained == True:
                     break
             if is_contained == False:
-                team_dic = {"state": 2, "teammate": team_index, "memory": TemporaryMemory(None), "topic": None, "idea": None, "abstract": None, "citation_id": None, "self_review":None, "paper_review": None}
+                team_dic = Team(str(agent_index+1)+','+str(len(self.team_pool[agent_index])+1))
+                team_dic.state=2
+                team_dic.teammate = team_index
                 team_list[agent_index].append(team_dic)
                 # connetion between collaborators will be closer
-                for member in team_dic['teammate']:
+                for member in team_dic.teammate:
                     if int(member[9:])!=agent_index:
                         self.adjacency_matrix[agent_index,int(member[9:])]=self.adjacency_matrix[agent_index,int(member[9:])]+0.2
                         self.adjacency_matrix[int(member[9:]),agent_index]=self.adjacency_matrix[int(member[9:]),agent_index]+0.2
@@ -312,9 +319,9 @@ class Platform:
         # after finishing each discussion turn, agent1 will summarize dialogue_history and add a summarization into team_history
         team = team_temp
         # get team_history
-        team_history = team['memory']
+        team_history = team.memory
         # get teammate
-        teammate = self.id_to_agent(team['teammate'])
+        teammate = self.id_to_agent(team.teammate)
         # init dialogue_history
         dialogue_history = TemporaryMemory(None)
         # init exit state
@@ -334,7 +341,7 @@ class Platform:
                     said.append(agent.name)
                 agent_prompt = format_msg(
                     # current team
-                    Msg(name="current team members", role="user", content=','.join(team['teammate'])),
+                    Msg(name="current team members", role="user", content=','.join(team.teammate)),
                     # team history
                     Msg(name="Summarizations of previous team discussions", role="user", content='')
                     if team_history.size()>0 else None,
@@ -356,13 +363,13 @@ class Platform:
                 print(involved_scientist)
                 # judge whether someone is called to join the team
                 for scientist_index in involved_scientist:
-                    if scientist_index not in team['teammate']:
+                    if scientist_index not in team.teammate:
                         if "by the way" in reply.content or "By the way" in reply.content:
-                            hint = Msg(name=team['teammate'][0],role="user",content=reply.content)
+                            hint = Msg(name=team.teammate[0],role="user",content=reply.content)
                             # invite new team member to comment
                             if self.id2agent[scientist_index].reply(hint, use_memory=False, use_RAG=False).content is not None:
                                 said.append(scientist_index)
-                                team['teammate'].append(scientist_index)
+                                team.teammate.append(scientist_index)
                                 teammate.append(self.id2agent[scientist_index])
 
                 turn_history.add(reply)
@@ -394,14 +401,14 @@ class Platform:
                 dialogue_history.add(turn_summarization)
 
         output['dialogue_history'] = dialogue_history
-        team['teammate'] = self.agent_to_id(teammate)
+        team.teammate = self.agent_to_id(teammate)
         return team, output
 
     def select_topic(self, team):
         # prompt to start discussing select_topic
         team, discuss_result = self.group_discuss(team, Prompts.to_start_topic_discussion)
         print('finish group discuss')
-        team_history = team['memory']
+        team_history = team.memory
         dialogue_history = discuss_result['dialogue_history']
         last_turn_history = discuss_result['last_turn_history']
         last_turn_summarization = discuss_result['last_turn_summarization']
@@ -422,7 +429,7 @@ class Platform:
             # answer_prompt
             Msg(name="user", role="user", content=Prompts.to_ask_if_ready_give_topic)
         )
-        answer = self.id2agent[team['teammate'][0]].prompt_reply(answer_prompt, add_memory = False, use_memory=False)
+        answer = self.id2agent[team.teammate[0]].prompt_reply(answer_prompt, add_memory = False, use_memory=False)
         answer_pattern = re.compile(r'action\s*1', re.IGNORECASE)
 
         # update dialogue history
@@ -431,7 +438,7 @@ class Platform:
 
         # check whether agent is ready to answer
         if answer_pattern.search(answer.content) or team_history.size()>=1:
-            team['state'] = 3
+            team.state = 3
             history_prompt = format_msg(
                 # team history
                 Msg(name="Summarizations of previous team discussions", role="user", content='')
@@ -452,8 +459,8 @@ class Platform:
                 # topic_prompt
                 Msg(name="user", role="user", content=Prompts.to_ask_topic)
             )
-            topic = self.id2agent[team['teammate'][0]].prompt_reply(topic_prompt, add_memory = False)
-            team['topic'] = topic.content
+            topic = self.id2agent[team.teammate[0]].prompt_reply(topic_prompt, add_memory = False)
+            team.topic = topic.content
 
             # update dialogue history
             dialogue_history.add(topic)
@@ -466,12 +473,12 @@ class Platform:
             team_history.get_memory(recent_n=self.recent_n_team_mem_for_retrieve)
         )
         team_history.add(Msg(name="summarizations of one topic discussion", role="user",
-                             content=self.id2agent[team['teammate'][0]].summarize(history = history, content = dialogue_history.get_memory(recent_n=self.group_max_discuss_iteration))))
-        team['memory'] = team_history
+                             content=self.id2agent[team.teammate[0]].summarize(history = history, content = dialogue_history.get_memory(recent_n=self.group_max_discuss_iteration))))
+        team.memory = team_history
         return team
 
     def generate_idea(self, team):
-        topic = team['topic']
+        topic = team.topic
         old_idea = None
         best_idea = None
         # search related paper about the topic
@@ -495,7 +502,7 @@ class Platform:
             paper_reference = paper_reference+"Title: "+paper_index['title']+"\n"
             paper_reference = paper_reference+"Abstract: "+paper_index['abstract']+"}"+"\n"
 
-        teammate = self.id_to_agent(team['teammate'])
+        teammate = self.id_to_agent(team.teammate)
         idea_judge = True
         for turn in range(self.group_max_discuss_iteration):
             # discuss the idea
@@ -532,18 +539,18 @@ class Platform:
                     break
             if idea_judge:
                 break
-        if team['idea'] == None:
-            team['idea'] = best_idea
+        if team.idea == None:
+            team.idea = best_idea
         print("Final Idea:")
-        print(team['idea'])
-        team['state']=4
-        team['citation_id'] = I[0]
+        print(team.idea)
+        team.state=4
+        team.citation_id = I[0]
         return team
 
     def generate_abstract(self, team):
-        idea = team['idea']
-        old_abstract = team['abstract']
-        teammate = self.id_to_agent(team['teammate'])
+        idea = team.idea
+        old_abstract = team.abstract
+        teammate = self.id_to_agent(team.teammate)
 
         for turn in range(self.group_max_discuss_iteration):
             # discuss the abstract
@@ -553,17 +560,17 @@ class Platform:
                                       "\n"+Prompts.prompt_abstract_requirement+"\n"+Prompts.prompt_abstract_response
                 else:
                     # the paper is not reviewed by reviewer
-                    if team['paper_review'] == None:
+                    if team.paper_review == None:
                         # the paper is not reviewer by the team member
-                        if team['self_review'] == None:
+                        if team.self_review == None:
                             prompt_abstract_judgement = Prompts.prompt_abstract_judgement.replace("[Insert abstract here]",old_abstract)
                             abstract_prompt = prompt_abstract_judgement+Prompts.prompt_abstract_revise_response
                         else:
                             prompt_abstract_judgement = Prompts.prompt_abstract_judgement_self.replace("[Insert abstract here]",old_abstract)
-                            prompt_abstract_judgement = prompt_abstract_judgement.replace("[Insert self_review comments]", team['self_review'])
+                            prompt_abstract_judgement = prompt_abstract_judgement.replace("[Insert self_review comments]", team.self_review)
                             abstract_prompt = prompt_abstract_judgement+Prompts.prompt_abstract_revise_response
                     else:
-                        prompt_abstract_judgement = Prompts.prompt_abstract_judgement_after_review.replace("[Insert Reviewer comments]",team['paper_review'])
+                        prompt_abstract_judgement = Prompts.prompt_abstract_judgement_after_review.replace("[Insert Reviewer comments]",team.paper_review)
                         prompt_abstract_judgement = prompt_abstract_judgement.replace("[Insert abstract here]",old_abstract)
                         abstract_prompt = prompt_abstract_judgement+Prompts.prompt_abstract_revise_response
                 agent_prompt = format_msg(
@@ -609,30 +616,41 @@ class Platform:
             for split_keyword in split_keywords:
                 if metric[split_keyword]>=70:
                     abstract_use = False
-                    team['abstract'] = old_abstract
-                    team['self_review'] = reply.content
+                    team.abstract = old_abstract
                     break
-            team['abstract'] = old_abstract
+            team.abstract = old_abstract
             print('Final Abstract:')
-            print(team['abstract'])
+            print(team.abstract)
             if abstract_use:
-                team['state']=5
+                team.state=5
+                team.self_review=None
+            # if the abstract is too similar one time, go to revise, otherwise back to generate idea
+            else:
+                if team.self_review!=None:
+                    team.state=3
+                    team.idea = None
+                    team.abstract = None
+                    team.citation_id = None
+                    team.self_review = None
+                    team.paper_review = None
+                else:
+                    team.self_review = reply.content
         else:
             print('Check Fail!!!!!!')
-            if team['abstract'] == None:
-                team['abstract'] = old_abstract
+            if team.abstract == None:
+                team.abstract = old_abstract
                 print('Final Abstract:')
-                print(team['abstract'])
-                team['state']=5
+                print(team.abstract)
+                team.state=5
         return team
 
     def generate_review(self, team):
         # paper reviewer by reviewer
-        print('current reviewing paper from {}'.format(team['teammate']))
-        old_abstract = team['abstract']
+        print('current reviewing paper from {}'.format(team.teammate))
+        old_abstract = team.abstract
         prompt = Prompts.prompt_review_require_simple.replace("{paper}", old_abstract)
         mark_sum = 0
-        team['paper_review']==None
+        team.paper_review==None
         for _ in range(self.reviewer_num):
             agent_prompt = format_msg(
                 # prompt
@@ -641,10 +659,10 @@ class Platform:
             reply = self.reviewer_pool[_].prompt_reply(agent_prompt, add_memory = False, use_memory = False, use_RAG=False)
             split_keywords = ['Overall']
             metric = extract_metrics(reply.content, split_keywords)
-            if team['paper_review'] == None:
-                team['paper_review'] = self.reviewer_pool[_].name+":\n"+reply.content
+            if team.paper_review == None:
+                team.paper_review = self.reviewer_pool[_].name+":\n"+reply.content
             else:
-                team['paper_review'] = team['paper_review']+"\n"+self.reviewer_pool[_].name+":\n"+reply.content
+                team.paper_review = team.paper_review+"\n"+self.reviewer_pool[_].name+":\n"+reply.content
             for split_keyword in split_keywords:
                 if metric[split_keyword] == None:
                     mark_sum = mark_sum + self.default_mark
@@ -652,7 +670,7 @@ class Platform:
                     mark_sum = mark_sum + metric[split_keyword]
         if mark_sum>(4*self.reviewer_num):
             print('paper accept!!!!!!')
-            team['state']=6
+            team.state=6
             title = old_abstract.split("Abstract")[0]
             title = strip_non_letters(title.split("Title")[1])
             abstract = strip_non_letters(old_abstract.split("Abstract")[1])
@@ -660,8 +678,8 @@ class Platform:
             file_dict['title']=title
             file_dict['abstract']=abstract
             file_dict['id'] = len(self.paper_dicts)
-            file_dict['authors'] = team['teammate']
-            file_dict['cite_papers'] = team['citation_id']
+            file_dict['authors'] = team.teammate
+            file_dict['cite_papers'] = team.citation_id
             self.paper_dicts.append(file_dict)
             # add embedding into list
             embedding_list = []
@@ -670,14 +688,14 @@ class Platform:
             response = np.array(embedding_list)
             self.gpu_index.add(response)
         else:
-            team['state'] = 4
+            team.state = 4
         return team
 
     def add_author(self, team):
         # prompt to start discussing select_topic
         discuss_result = self.group_discuss(team, Prompts.to_start_add_author)
         print('finish group discuss')
-        team_history = team['memory']
+        team_history = team.memory
         dialogue_history = discuss_result['dialogue_history']
         last_turn_history = discuss_result['last_turn_history']
         last_turn_summarization = discuss_result['last_turn_summarization']
@@ -698,7 +716,7 @@ class Platform:
             # answer_prompt
             Msg(name="user", role="user", content=Prompts.to_ask_if_ready_add_authors)
         )
-        answer = self.id2agent[team['teammate'][0]].prompt_reply(answer_prompt, add_memory = False, use_memory=False)
+        answer = self.id2agent[team.teammate[0]].prompt_reply(answer_prompt, add_memory = False, use_memory=False)
         answer_pattern = re.compile(r'action\s*1', re.IGNORECASE)
 
         # update dialogue history
@@ -711,7 +729,7 @@ class Platform:
 
             # select scientists randomly
             team_candidate = []
-            match = re.search(r'Scientist(\d+)', team['teammate'][0])
+            match = re.search(r'Scientist(\d+)', team.teammate[0])
             agent_index = match.group(1)
             for i in range(len(self.adjacency_matrix)):
                 if (self.adjacency_matrix[agent_index,i]+1)*random.random() > 1.0 and i!=agent_index:
@@ -722,12 +740,12 @@ class Platform:
 
             # create new team
             for agent in agent_candidate:
-                team_temp = team['teammate']
+                team_temp = team.teammate
                 hint = self.HostMsg(content=Prompts.to_scientist_choice_add_author.format_map({
-                    "inviter_name": self.id2agent[team['teammate'][0]].name,
-                    "personal information" : convert_you_to_other(self.id2agent[team['teammate'][0]].sys_prompt),
-                    "team_memory" : team['memory'].get_memory(recent_n=1),
-                    "team_list" : team['teammate'],
+                    "inviter_name": self.id2agent[team.teammate[0]].name,
+                    "personal information" : convert_you_to_other(self.id2agent[team.teammate[0]].sys_prompt),
+                    "team_memory" : team.memory.get_memory(recent_n=1),
+                    "team_list" : team.teammate,
                 }))
                 pattern = re.compile(r'action\s*1', re.IGNORECASE)
                 # action1 is to accept the invitation
@@ -738,12 +756,12 @@ class Platform:
                 # delete repeated teams
                 is_contained = False
                 for sub_list in self.team_pool[agent_index]:
-                    is_contained = (set(sub_list['teammate']) == set(team_temp))
+                    is_contained = (set(sub_list.teammate) == set(team_temp))
                     if is_contained == True:
                         break
                 if is_contained == False:
-                    team['teammate'].append(agent.name)
-        team['state'] = 4
+                    team.teammate.append(agent.name)
+        team.state = 4
         return team
 
     def id_to_agent(self, team_list):
@@ -788,7 +806,7 @@ class Platform:
             # 5. select coauthors for state 1
             for agent_index in range(len(self.team_pool)):
                 for team_index in range(len(self.team_pool[agent_index])):
-                    action = self.action_excution(self.team_pool[agent_index][team_index]['state'], epoch)
+                    action = self.action_excution(self.team_pool[agent_index][team_index].state, epoch)
                     if action is not None:
                         self.team_pool[agent_index][team_index] = action(self.team_pool[agent_index][team_index])
                         print(f'Epoch{epoch}-------------------current action finished')

@@ -1,5 +1,7 @@
 from loguru import logger
 import os
+import sys
+sys.path.append('../agentscope-main/src')
 from agentscope.memory import TemporaryMemory
 class Team:
     def __init__(self, team_name):

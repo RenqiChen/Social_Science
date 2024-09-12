@@ -30,9 +30,9 @@ for _ in tqdm(range(len(paper_list))):
     # 打开文件并写入元素内容
     paper_content = {}
     if abstract != None and citation!=None:
-        if citation>10:
+        if citation>30:
             # print(abstract)
-            filename = f"./papers/paper_{i}.txt"
+            filename = f"/home/bingxing2/ailab/scxlab0066/SocialScience/papers_simple/paper_{i}.txt"
             paper_content['id'] = id
             paper_content['title'] = title
             paper_content['authors'] = authors
@@ -50,3 +50,7 @@ print(i)
 # close
 global_cursor.close()
 global_conn.close()
+
+
+# 10 80000
+# 20 37000

@@ -105,8 +105,8 @@ def team_description(team: list) -> str:
     output_string = "{"
     i = 1
     for team_index in team:
-        if team_index['state'] != 6:
-            output_string += f"team{i}: {team_index['teammate']}"
+        if team_index.state != 6:
+            output_string += f"team{i}: {team_index.teammate}"
             i = i + 1
             if i < len(team):
                 output_string += ", "
@@ -117,18 +117,19 @@ def team_description(team: list) -> str:
 def team_description_detail(team: list, agent_list: list) -> str:
     """combine agent names into a string, and use "and" to connect the last
     two names."""
-    output_string = f"You are currently a member of {len(team)} teams. "
+    output_string = ""
     i=1
     for team_index in range(len(team)):
-        if team[team_index]['state']!=6:
-            team_list = team[team_index]['teammate']
-            output_string += f"The Team{i} includes team members: {team_list}"
+        if team[team_index].state!=6:
+            team_list = team[team_index].teammate
+            output_string += f"The Team{i} includes team members: {team_list}. "
             i=i+1
+    output_string_before = f"You are currently a member of {i} teams. "
     # for agent in agent_list:
     #     if agent.name in independent_list:
     #         output_string += f"For {agent.name}, "
     #         output_string += convert_you_to_other(agent.sys_prompt)
-    output_string = output_string + "Summarize the status of all the teams you are currently part of."
+    output_string = output_string_before + output_string + "Summarize the status of all the teams you are currently part of."
     return output_string
 
 def convert_you_to_other(origin: str) -> str:
@@ -378,6 +379,6 @@ def save2database(paper_list : list[dict], output_dir : str):
 def count_team(team_list: list[dict]):
     num = 0
     for team in team_list:
-        if team['state']<6:
+        if team.state<6:
             num = num+1
     return num
