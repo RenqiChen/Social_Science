@@ -43,7 +43,7 @@ class Platform:
                  model_configuration: str = './configs/model_configs.json',
                  agent_num: int = 1,
                  root_dir: str = '/home/bingxing2/ailab/group/ai4agr/shy/s4s',
-                 paper_folder_path: str = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers",
+                 paper_info_dir: str = 'papers',
                  author_info_dir: str = 'authors',
                  adjacency_matrix_dir: str = 'authors_degree_ge50_from_year2000to2010',
                  agent_model_config_name: str = 'ollama_llama3.1_8b',
@@ -53,14 +53,14 @@ class Platform:
                  group_max_discuss_iteration: int = 1,
                  recent_n_team_mem_for_retrieve: int = 1,
                  team_limit: int = 3,
-                 check_iter: int = 3,
+                 check_iter: int = 2,
                  review_num: int = 2,
                  max_teammember: int = 6,
                  cite_number: int = 8,
                  default_mark: int = 4
                  ):
         self.agent_num = agent_num
-        self.paper_folder_path = paper_folder_path
+        self.paper_info_dir = os.path.join(root_dir, paper_info_dir)
         self.author_info_dir = os.path.join(root_dir, author_info_dir)
         self.adjacency_matrix_dir = os.path.join(root_dir, adjacency_matrix_dir)
         self.group_max_discuss_iteration = group_max_discuss_iteration
@@ -135,7 +135,8 @@ class Platform:
         res = faiss.StandardGpuResources()  # 为 GPU 资源分配
         self.gpu_index = faiss.index_cpu_to_gpu(res, 0, cpu_index)  # 将索引移到 GPU
 
-        self.paper_dicts = read_txt_files_as_dict(self.paper_folder_path)
+        paper_folder_path = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers"  # 替换为实际的文件夹路径
+        self.paper_dicts = read_txt_files_as_dict(paper_folder_path)
 
     def init_reviewer(self, agent_id, agent_model_config_name):
         agent = SciAgent(
@@ -223,9 +224,8 @@ class Platform:
                 },
             ),
             )
+            # set_parsers(scientists[agent_index], Prompts.scientist_self_discuss_parser)
             x = scientists[agent_index].reply(hint)
-            team_list[agent_index][0].log_dialogue('user',hint.content)
-            team_list[agent_index][0].log_dialogue(scientists[agent_index].name,x.content)
             match = re.search(r'action\s*(\d+)', x.content, re.IGNORECASE)
 
             # when action2, the agent choose to act independently
@@ -237,7 +237,6 @@ class Platform:
             team_candidate = []
             # use prompts to select scientists
             hint = self.HostMsg(content=Prompts.to_scientist_select)
-            team_list[agent_index][0].log_dialogue('user',hint.content)
             team_candidate = extract_scientist_names(scientists[agent_index].reply(hint, use_memory = False).content)
             team_candidate_temp = []
             if len(team_candidate)<4:
@@ -262,7 +261,6 @@ class Platform:
             random.shuffle(team_candidate_after)
             team_candidate_after = team_candidate_after[:self.max_teammember]
             print(team_candidate_after)
-            team_list[agent_index][0].log_dialogue(scientists[agent_index].name,','.join(team_candidate_after))
             is_contained = False
             for agent_list in team_list:
                 for sublist in agent_list:
@@ -288,11 +286,8 @@ class Platform:
                 # set_parsers(agent, Prompts.scientist_invite_parser)
                 pattern = re.compile(r'action\s*1', re.IGNORECASE)
                 # action1 means a scientist accepts the invitance
-                x = agent.reply(hint, use_memory=False, use_RAG=False)
-                if pattern.search(x.content):
+                if pattern.search(agent.reply(hint, use_memory=False, use_RAG=False).content):
                     team_index.append(agent.name)
-                team_list[agent_index][0].log_dialogue('user',hint.content)
-                team_list[agent_index][0].log_dialogue(scientists[agent_index].name,x.content)
             # delete repeated teams
             is_contained = False
             for agent_list in team_list:
@@ -364,7 +359,6 @@ class Platform:
                 )
                 # add reply to turn_history
                 reply = agent.prompt_reply(agent_prompt, add_memory = False, use_memory = False)
-                team.log_dialogue(agent.name,reply.content)
                 involved_scientist = extract_scientist_names(reply.content)
                 print(involved_scientist)
                 # judge whether someone is called to join the team
@@ -373,11 +367,9 @@ class Platform:
                         if "by the way" in reply.content or "By the way" in reply.content:
                             hint = Msg(name=team.teammate[0],role="user",content=reply.content)
                             # invite new team member to comment
-                            x = self.id2agent[scientist_index].reply(hint, use_memory=False, use_RAG=False)
-                            if x.content is not None:
+                            if self.id2agent[scientist_index].reply(hint, use_memory=False, use_RAG=False).content is not None:
                                 said.append(scientist_index)
                                 team.teammate.append(scientist_index)
-                                team.log_dialogue(self.id2agent[scientist_index].name, x.content)
                                 teammate.append(self.id2agent[scientist_index])
 
                 turn_history.add(reply)
@@ -398,10 +390,8 @@ class Platform:
                 if dialogue_history.size()>0 else None,
                 dialogue_history.get_memory(recent_n=turn),
             )
-            x = teammate[0].summarize(history = history, content = turn_history.get_memory(recent_n=agent_num))
-            team.log_dialogue(teammate[0].name, x.content)
             turn_summarization = Msg(name="summarizations of turn{}".format(turn+1), role="user",
-                                     content=x.content)
+                                     content=teammate[0].summarize(history = history, content = turn_history.get_memory(recent_n=agent_num)))
 
             if exit or turn==self.group_max_discuss_iteration-1:
                 output['last_turn_summarization'] = turn_summarization
@@ -440,8 +430,6 @@ class Platform:
             Msg(name="user", role="user", content=Prompts.to_ask_if_ready_give_topic)
         )
         answer = self.id2agent[team.teammate[0]].prompt_reply(answer_prompt, add_memory = False, use_memory=False)
-        team.log_dialogue('user',self.id2agent[team.teammate[0]].model.format(answer_prompt))
-        team.log_dialogue(self.id2agent[team.teammate[0]].name, answer.content)
         answer_pattern = re.compile(r'action\s*1', re.IGNORECASE)
 
         # update dialogue history
@@ -472,7 +460,6 @@ class Platform:
                 Msg(name="user", role="user", content=Prompts.to_ask_topic)
             )
             topic = self.id2agent[team.teammate[0]].prompt_reply(topic_prompt, add_memory = False)
-            team.log_dialogue(team.teammate[0],topic.content)
             team.topic = topic.content
 
             # update dialogue history
@@ -528,8 +515,6 @@ class Platform:
                     Msg(name="user", role="user", content=idea_prompt),
                 )
                 reply = agent.prompt_reply(agent_prompt, add_memory = False, use_memory = False, use_RAG=False)
-                team.log_dialogue('user',idea_prompt)
-                team.log_dialogue(agent.name,reply.content)
                 old_idea = extract_between_json_tags(reply.content, num=1)
                 # find the metric
                 split_keywords = ['Interestingness', 'Feasibility', 'Novelty']
@@ -572,7 +557,7 @@ class Platform:
             for agent in teammate:
                 if old_abstract == None:
                     abstract_prompt = Prompts.prompt_abstract+"\n"+idea+ \
-                    "\n"+Prompts.prompt_abstract_requirement+"\n"+Prompts.prompt_abstract_response
+                                      "\n"+Prompts.prompt_abstract_requirement+"\n"+Prompts.prompt_abstract_response
                 else:
                     # the paper is not reviewed by reviewer
                     if team.paper_review == None:
@@ -593,7 +578,6 @@ class Platform:
                     Msg(name="user", role="user", content=abstract_prompt),
                 )
                 reply = agent.prompt_reply(agent_prompt, add_memory = False, use_memory = False, use_RAG=False)
-                team.log_dialogue(agent.name, reply.content)
                 old_abstract = extract_between_json_tags(reply.content, num=1)
                 if old_abstract == None:
                     old_abstract = reply.content
@@ -601,26 +585,13 @@ class Platform:
         # find similar paper
         title = old_abstract.split("Abstract")[0]
         title = strip_non_letters(title.split("Title")[1])
-        related_papers = paper_search(title, top_k=int(self.cite_number/2))
+        related_papers = paper_search(title, top_k=self.cite_number)
         iter = 1
         while len(related_papers)==0:
-            related_papers = paper_search(title, top_k=int(self.cite_number/2))
+            related_papers = paper_search(title, top_k=self.cite_number)
             iter += 1
             if iter > self.check_iter:
                 break
-        query_vector = ollama.embeddings(model="mxbai-embed-large", prompt=title)
-        query_vector = np.array([query_vector['embedding']])
-        D, I = self.gpu_index.search(query_vector, int(self.cite_number/2))
-
-        for id in range(len(I[0])):
-            paper_title = self.paper_dicts[I[0][id]]['title']
-            paper_abstract = self.paper_dicts[I[0][id]]['abstract']
-            paper_index = {}
-            paper_index['title'] = paper_title
-            paper_index['abstract'] = paper_abstract
-            related_papers.append(paper_index)
-        print('related papers:')
-        print(len(related_papers))
         # find paper successfully
         if len(related_papers)>0:
             abstract_check_prompt = Prompts.prompt_abstract_check.replace("[Insert your abstract here]", old_abstract)
@@ -637,7 +608,6 @@ class Platform:
                 Msg(name="user", role="user", content=abstract_check_prompt),
             )
             reply = teammate[0].prompt_reply(agent_prompt, add_memory = False, use_memory = False, use_RAG=False)
-            team.log_dialogue(teammate[0].name, reply.content)
             print("abstract_check:")
             print(split_keywords)
             comparison = extract_between_json_tags(reply.content)
@@ -687,7 +657,6 @@ class Platform:
                 Msg(name="user", role="user", content=prompt),
             )
             reply = self.reviewer_pool[_].prompt_reply(agent_prompt, add_memory = False, use_memory = False, use_RAG=False)
-            team.log_dialogue(self.reviewer_pool[_].name, reply.content)
             split_keywords = ['Overall']
             metric = extract_metrics(reply.content, split_keywords)
             if team.paper_review == None:
@@ -699,7 +668,7 @@ class Platform:
                     mark_sum = mark_sum + self.default_mark
                 else:
                     mark_sum = mark_sum + metric[split_keyword]
-        if mark_sum>=(5*self.reviewer_num):
+        if mark_sum>(4*self.reviewer_num):
             print('paper accept!!!!!!')
             team.state=6
             title = old_abstract.split("Abstract")[0]
@@ -837,7 +806,6 @@ class Platform:
             # 5. select coauthors for state 1
             for agent_index in range(len(self.team_pool)):
                 for team_index in range(len(self.team_pool[agent_index])):
-                    self.team_pool[agent_index][team_index].epoch = epoch
                     action = self.action_excution(self.team_pool[agent_index][team_index].state, epoch)
                     if action is not None:
                         self.team_pool[agent_index][team_index] = action(self.team_pool[agent_index][team_index])
@@ -846,4 +814,4 @@ class Platform:
             self.team_pool = self.select_coauthors()
             print(f'Epoch{epoch}-------------------current action finished')
         output_dir = "/home/bingxing2/ailab/scxlab0066/SocialScience/database/database.db"
-        save2database(self.paper_dicts, output_dir)
+        save2database(self.paper_dicts, output_dir)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
