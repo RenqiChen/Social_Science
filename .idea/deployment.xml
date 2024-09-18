@@ -9,6 +9,20 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="beijing (1)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/bingxing2/ailab/suhaoyang/shy/Social-Science" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="beijing (2)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/bingxing2/ailab/suhaoyang/shy/Social-Science" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
     <option name="myAutoUpload" value="ALWAYS" />
   </component>
