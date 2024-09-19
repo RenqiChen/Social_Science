@@ -22,7 +22,7 @@ import json
 import sqlite3
 
 from concurrent.futures import ThreadPoolExecutor
-
+from collections import Counter
 
 def check_winning(alive_agents: list, wolf_agents: list, host: str) -> bool:
     """check which group wins"""
@@ -417,3 +417,30 @@ def count_team(team_list: list[dict], over_state: int):
         if team.state<over_state:
             num = num+1
     return num
+
+
+def top_three_indices(lst):
+    # 使用enumerate获取元素及其索引，并根据元素值进行排序
+    sorted_indices = sorted(enumerate(lst), key=lambda x: x[1], reverse=True)
+    
+    # 取出前三大的元素的索引
+    top_three = [index for index, value in sorted_indices[:3]]
+    
+    return top_three
+
+def extract_first_number(s):
+    # 使用正则表达式查找字符串中的第一个数字
+    match = re.search(r'\d+', s)
+    if match:
+        return match.group()  # 返回匹配到的第一个数字
+    return None  # 如果没有找到数字，返回 None
+
+
+def most_frequent_element(arr):
+    # 使用 Counter 计算每个元素的出现次数
+    count = Counter(arr)
+    
+    # 返回出现次数最多的元素
+    most_common_element = count.most_common(1)[0][0]
+    
+    return most_common_element

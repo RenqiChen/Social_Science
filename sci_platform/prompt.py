@@ -110,14 +110,13 @@ class Prompts:
     """)
 
     prompt_idea_check = """You are an ambitious scientist who is looking to publish a paper that will contribute significantly to the field. 
-    Your team has an idea and you want to check if it is novel or not. I.e., not overlapping significantly with existing literature or already well explored. 
+    Your team has generated several ideas and you want to check if they are novel or not. I.e., not overlapping significantly with existing literature or already well explored. 
     Be a harsh critic for novelty, ensure there is a sufficient contribution in the idea for a new conference or workshop paper. 
-    You will be provided with relevant papers to help you make your decision. The top 10 results for any search query will be presented to you with the abstracts. 
-    Decide a paper idea is not novel, if you have found a paper that significantly overlaps with your idea. 
+    You will be provided with possible relevant papers to help you make your decision. Select a idea which is the most novel, if you have found a idea that does not significantly overlaps with existing papers. 
     """
     
-    prompt_idea_check_response = """You have this idea: {existing_idea}.
-    The related papers of the last query are {last_query_results}.
+    prompt_idea_check_response = """Your team generated these ideas: {existing_idea}.
+    The possible related papers are {last_query_results}.
     Respond in the following format: 
     THOUGHT: 
     <THOUGHT>
@@ -125,8 +124,9 @@ class Prompts:
     ```json 
     <JSON> 
     ``` 
-    In <THOUGHT>, briefly reason over the decision made on the idea novelty. 
-    In <JSON>, respond in JSON format with ONLY the following field: - "Decision Made": Novel or Not Novel. This JSON will be automatically parsed, so ensure the format is precise.
+    In <THOUGHT>, explain why you make this selection. 
+    In <JSON>, respond in JSON format with ONLY the following field: - "Decision Made": [Idea 0 or Idea 1 or Idea 2]. 
+    This JSON will be automatically parsed, so ensure the format is precise.
     """
 
     prompt_abstract = """Based on the following research idea, generate a concise and informative abstract for a scientific paper by integrating your own knowledge and 

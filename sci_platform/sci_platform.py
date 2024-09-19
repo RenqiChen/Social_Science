@@ -967,4 +967,4 @@ class Platform:
             self.team_pool = self.select_coauthors()
             print(f'Epoch{epoch}-------------------current action finished')
         output_dir = "/home/bingxing2/ailab/scxlab0066/SocialScience/database/database.db"
-        save2database(self.paper_dicts, output_dir)
+   
