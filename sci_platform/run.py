@@ -1,7 +1,7 @@
 from sci_platform import Platform
 from scientist_utils import read_txt_files_as_dict
 
-epochs = 6
+epochs = 5
 platform_example = Platform()
 platform_example.running(epochs)
 

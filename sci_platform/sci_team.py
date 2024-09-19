@@ -3,6 +3,8 @@ import sys
 sys.path.append('../agentscope-main/src')
 import logging
 from agentscope.memory import TemporaryMemory
+from datetime import datetime
+
 class Team:
     def __init__(self, team_name):
         # attrs
@@ -29,7 +31,9 @@ class Team:
         }
 
         # init log file
-        self.log_file = f"logs/{self.team_name}_dialogue.log"
+        # 获取当前时间并格式化为字符串，格式为 YYYYMMDD_HHMMSS
+        current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.log_file = f"logs/{current_time}_{self.team_name}_dialogue.log"
         os.makedirs("logs", exist_ok=True)
 
         # Check if log file exists and delete it
