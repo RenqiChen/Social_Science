@@ -126,7 +126,7 @@ class Prompts:
     ``` 
     In <THOUGHT>, explain why you make this selection. 
     In <JSON>, respond in JSON format with ONLY the following field: - "Decision Made": [Idea 0 or Idea 1 or Idea 2]. 
-    This JSON will be automatically parsed, so ensure the format is precise.
+    Note that you can only select one idea. This JSON will be automatically parsed, so ensure the format is precise.
     """
 
     prompt_abstract = """Based on the following research idea, generate a concise and informative abstract for a scientific paper by integrating your own knowledge and 
