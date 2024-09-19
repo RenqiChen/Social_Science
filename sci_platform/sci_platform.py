@@ -1,4 +1,7 @@
 import sys
+
+import torch.nn.functional
+
 sys.path.append('../agentscope-main/src')
 import os
 import agentscope
@@ -26,7 +29,10 @@ from scientist_utils import (
     paper_search,
     strip_non_letters,
     save2database,
-    count_team
+    count_team,
+    top_three_indices,
+    extract_first_number,
+    most_frequent_element
 )
 from agentscope.message import Msg
 from agentscope.msghub import msghub
@@ -58,7 +64,7 @@ class Platform:
                  max_teammember: int = 3,
                  cite_number: int = 8,
                  default_mark: int = 4,
-                 skip_check: bool = True,
+                 skip_check: bool = False,
                  over_state: int = 7,
                  begin_state: int = 1
                  ):
@@ -88,7 +94,7 @@ class Platform:
         self.begin_state = begin_state
 
         # for quality, the team of one member will think more times
-        self.think_times = 6
+        self.think_times = max_teammember+1
 
         # author2paper file: dict{'authorID':[paperID1, paperID2, ...]}
         with open('{}/author2paper.json'.format(root_dir), 'r') as file:
@@ -227,9 +233,9 @@ class Platform:
         for agent_index in range(len(scientists)):
             # avoid too many teams
             if count_team(team_list[agent_index], self.over_state)>=self.team_limit:
-                # # choose to enforcely add the owner as a team
-                # if team_list[agent_index][0].state==1:
-                #     team_list[agent_index][0].state=2
+                # choose to enforcely add the owner as a team
+                if team_list[agent_index][0].state==1:
+                    team_list[agent_index][0].state=2
                 continue
             hint = self.HostMsg(content=Prompts.ask_choice.format_map(
                 {
@@ -323,8 +329,6 @@ class Platform:
                 team_dic.teammate = team_index
                 team_list[agent_index].append(team_dic)
 
-                self.think_times = len(team_index)
-
                 # connetion between collaborators will be closer
                 for member in team_dic.teammate:
                     if int(member[9:])!=agent_index:
@@ -353,11 +357,11 @@ class Platform:
         output = {}
         # start discussing
         if len(teammate)==1:
-            self.group_max_discuss_iteration = self.think_times
+            group_max_discuss_iteration = self.think_times*self.group_max_discuss_iteration
         else:
-            self.group_max_discuss_iteration = 1
+            group_max_discuss_iteration = self.group_max_discuss_iteration
 
-        for turn in range(self.group_max_discuss_iteration):
+        for turn in range(group_max_discuss_iteration):
             said = []
             # init turn_memory for each turn
             turn_history = TemporaryMemory(None)
@@ -426,7 +430,7 @@ class Platform:
             turn_summarization = Msg(name="summarizations of turn{}".format(turn+1), role="user",
                                      content=x.content)
 
-            if exit or turn==self.group_max_discuss_iteration-1:
+            if exit or turn==group_max_discuss_iteration-1:
                 output['last_turn_summarization'] = turn_summarization
                 output['last_turn_history'] = turn_history
                 break
@@ -517,19 +521,21 @@ class Platform:
         topic = team.topic
         old_idea = None
         best_idea = None
+        idea_list = []
+        mark_list = []
         # search related paper about the topic
         selected_topics = strip_non_letters(topic.split("Selected Topics:")[-1])
-        paper_reference, cite_paper = self.reference_paper(selected_topics)
+        paper_reference, cite_paper = self.reference_paper(selected_topics, self.cite_number)
 
         teammate = self.id_to_agent(team.teammate)
         idea_judge = True
 
         if len(teammate)==1:
-            self.group_max_discuss_iteration = self.think_times
+            group_max_discuss_iteration = self.think_times*self.group_max_discuss_iteration
         else:
-            self.group_max_discuss_iteration = 1
+            group_max_discuss_iteration = self.group_max_discuss_iteration
 
-        for turn in range(self.group_max_discuss_iteration):
+        for turn in range(group_max_discuss_iteration):
             # discuss the idea
             for agent in teammate:
                 idea_prompt = Prompts.prompt_task+Prompts.prompt_existing_idea.format(old_idea)+ \
@@ -543,10 +549,9 @@ class Platform:
                 team.log_dialogue('user',idea_prompt)
                 team.log_dialogue(agent.name,reply.content)
                 old_idea = extract_between_json_tags(reply.content, num=1)
-                idea_key = old_idea.split("Idea")[1]
-                idea_key = strip_non_letters(idea_key.split("Title")[0])
-                print(idea_key)
-                paper_reference, cite_paper_new = self.reference_paper(idea_key)
+                idea_key = old_idea.split("Title")[1]
+                idea_key = strip_non_letters(idea_key.split("Experiment")[0])
+                paper_reference, cite_paper_new = self.reference_paper(idea_key, self.cite_number)
                 cite_paper = list(set(cite_paper).union(cite_paper_new))
 
                 # find the metric
@@ -561,10 +566,15 @@ class Platform:
                     old_count = 0
                     best_count = 0
                     for split_keywork in split_keywords:
-                        old_count = old_count + metrics[split_keyword]
+                        if split_keyword=='Novelty':
+                            old_count = old_count + 2*metrics[split_keyword]
+                        else:
+                            old_count = old_count + metrics[split_keyword]
                         best_count = best_count + best_metrics[split_keyword]
                     if old_count>=best_count:
                         best_idea = old_idea
+                        idea_list.append(old_idea)
+                        mark_list.append(old_count)
                 else:
                     best_idea = old_idea
                 # if all metrics are larger than 8, then over
@@ -578,8 +588,10 @@ class Platform:
             if idea_judge:
                 break
         if team.idea == None:
-            team.idea = best_idea
-        print("Final Idea:")
+            indices = top_three_indices(mark_list)
+            idea_list = [idea_list[i] for i in indices]
+            team.idea = idea_list
+        print("Candidate Idea:")
         print(team.idea)
         if self.skip_check:
             team.state=5
@@ -591,26 +603,39 @@ class Platform:
 
     def check_novelty(self, team):
         existing_idea = team.idea
-        old_idea = None
-        best_idea = None
+        idea_choices = ""
+        for idea_index in range(len(existing_idea)):
+            idea = existing_idea[idea_index]
+            idea_choices = idea_choices+"Idea "+str(idea_index)+":\n"+idea+"\n"
+        related_papers = []
+        for idea_index in existing_idea:
+            title = idea_index.split("Title")[1]
+            title = strip_non_letters(title.split("Experiment")[0])
+            if len(existing_idea)==3:
+                cite_number = 3
+            else:
+                cite_number = 5
+            _, related_paper = self.reference_paper(title, cite_number)
 
-        title = existing_idea.split("Title")[1]
-        title = strip_non_letters(title.split("Experiment")[0])
-        related_papers = paper_search(title, top_k=int(self.cite_number/2))
+            related_papers = list(set(related_papers).union(related_paper))
 
         paper_reference = ""
         for id in range(len(related_papers)):
             paper_index = related_papers[id]
             paper_reference = paper_reference+"Paper {}:".format(id+1)+"\n"
-            paper_reference = paper_reference+"Title: "+paper_index['title']+"\n"
-            paper_reference = paper_reference+"Abstract: "+paper_index['abstract']+"}"+"\n"
+            paper_reference = paper_reference+"Title: "+self.paper_dicts[paper_index]['title']+"\n"
+            paper_reference = paper_reference+"Abstract: "+self.paper_dicts[paper_index]['abstract']+"}"+"\n"
 
         teammate = self.id_to_agent(team.teammate)
-        novelty_judge = True
-        for turn in range(self.group_max_discuss_iteration):
+        choice_list = []
+        if len(teammate)==1:
+            group_max_discuss_iteration = self.think_times*self.group_max_discuss_iteration
+        else:
+            group_max_discuss_iteration = self.group_max_discuss_iteration
+        for turn in range(group_max_discuss_iteration):
             # discuss the idea
             for agent in teammate:
-                idea_novelty_prompt = Prompts.prompt_idea_check+Prompts.prompt_idea_check_response.replace("{existing_idea}", existing_idea).replace("{last_query_results}",paper_reference)
+                idea_novelty_prompt = Prompts.prompt_idea_check+Prompts.prompt_idea_check_response.replace("{existing_idea}", idea_choices).replace("{last_query_results}",paper_reference)
                 agent_prompt = format_msg(
                     # prompt
                     Msg(name="user", role="user", content=idea_novelty_prompt),
@@ -619,36 +644,14 @@ class Platform:
                 team.log_dialogue('user',idea_novelty_prompt)
                 team.log_dialogue(agent.name,reply.content)
                 old_idea = extract_between_json_tags(reply.content, num=1)
-                # find the metric
-                split_keywords = ['Interestingness', 'Feasibility', 'Novelty']
-                metrics = extract_metrics(old_idea, split_keywords)
-                if best_idea != None:
-                    best_metrics = extract_metrics(best_idea, split_keywords)
-                    old_count = 0
-                    best_count = 0
-                    for split_keywork in split_keywords:
-                        old_count = old_count + metrics[split_keyword]
-                        best_count = best_count + best_metrics[split_keyword]
-                    if old_count>=best_count:
-                        best_idea = old_idea
-                else:
-                    best_idea = old_idea
-                # if all metrics are larger than 8, then over
-                for split_keyword in split_keywords:
-                    if metrics[split_keyword]<8:
-                        idea_judge=False
-                        break
-                if idea_judge:
-                    best_idea=old_idea
-                    break
-            if idea_judge:
-                break
-        if team.idea == None:
-            team.idea = best_idea
+                idea_choice = extract_first_number(old_idea)
+                choice_list.append(int(idea_choice))
+
+        final_choice = most_frequent_element(choice_list)
+        team.idea = existing_idea[final_choice]
         print("Final Idea:")
         print(team.idea)
-        team.state=4
-        team.citation_id = I[0]
+        team.state=5
         return team
 
     def generate_abstract(self, team):
@@ -657,11 +660,11 @@ class Platform:
         teammate = self.id_to_agent(team.teammate)
 
         if len(teammate)==1:
-            self.group_max_discuss_iteration = self.think_times
+            group_max_discuss_iteration = self.think_times*self.group_max_discuss_iteration
         else:
-            self.group_max_discuss_iteration = 1
+            group_max_discuss_iteration = self.group_max_discuss_iteration
 
-        for turn in range(self.group_max_discuss_iteration):
+        for turn in range(group_max_discuss_iteration):
             # discuss the abstract
             for agent in teammate:
                 if old_abstract == None:
@@ -695,10 +698,10 @@ class Platform:
         # find similar paper
         title = old_abstract.split("Abstract")[0]
         title = strip_non_letters(title.split("Title")[1])
-        related_papers = paper_search(title, top_k=int(self.cite_number/2))
+        related_papers = paper_search(title, top_k=int(self.cite_number/2), start_year=2011)
         iter = 1
         while len(related_papers)==0:
-            related_papers = paper_search(title, top_k=int(self.cite_number/2))
+            related_papers = paper_search(title, top_k=int(self.cite_number/2), start_year=2011)
             iter += 1
             # if iter > self.check_iter:
             #     break
@@ -706,7 +709,7 @@ class Platform:
         query_vector = ollama.embeddings(model="mxbai-embed-large", prompt=title)
         query_vector = np.array([query_vector['embedding']])
         D, I = self.gpu_index.search(query_vector, int(self.cite_number/2))
-
+        
         for id in range(len(I[0])):
             paper_title = self.paper_dicts[I[0][id]]['title']
             paper_abstract = self.paper_dicts[I[0][id]]['abstract']
@@ -714,6 +717,22 @@ class Platform:
             paper_index['title'] = paper_title
             paper_index['abstract'] = paper_abstract
             related_papers.append(paper_index)
+        
+        # eval with embedding similarity
+        abs = []
+        our_abs = strip_non_letters(old_abstract.split('Abstract')[1])
+        abs.append(ollama.embeddings(model="mxbai-embed-large", prompt=our_abs)['embedding'])
+        for paper_id in range(len(related_papers)):
+            related_astract = related_papers[paper_id]['abstract']
+            abs.append(ollama.embeddings(model="mxbai-embed-large", prompt=related_astract)['embedding'])
+        
+        sim = []
+        for emb_id in range(1, len(abs)):
+            sim.append(torch.nn.functional.cosine_similarity(torch.tensor(abs[0]).unsqueeze(0), 
+                                                             torch.tensor(abs[emb_id]).unsqueeze(0), dim=-1)[0].item())
+        team.log_dialogue('embedding similarity', str(sim))
+        
+        # eval with LLM
         print('related papers:')
         print(len(related_papers))
         if len(related_papers)>0:
@@ -904,10 +923,10 @@ class Platform:
             agent_list.append(agent_id.name)
         return agent_list
     
-    def reference_paper(self, key_string):
+    def reference_paper(self, key_string, cite_number):
         query_vector = ollama.embeddings(model="mxbai-embed-large", prompt=key_string)
         query_vector = np.array([query_vector['embedding']])
-        D, I = self.gpu_index.search(query_vector, self.cite_number)
+        D, I = self.gpu_index.search(query_vector, cite_number)
 
         paper_use = []
         for id in range(len(I[0])):
@@ -967,4 +986,4 @@ class Platform:
             self.team_pool = self.select_coauthors()
             print(f'Epoch{epoch}-------------------current action finished')
         output_dir = "/home/bingxing2/ailab/scxlab0066/SocialScience/database/database.db"
-        save2database(self.paper_dicts, output_dir)                                                                                                                                                                                                                                                                                                      
+        save2database(self.paper_dicts, output_dir)
