@@ -21,6 +21,8 @@ from tqdm import tqdm
 import json
 import sqlite3
 
+from concurrent.futures import ThreadPoolExecutor
+
 
 def check_winning(alive_agents: list, wolf_agents: list, host: str) -> bool:
     """check which group wins"""
@@ -99,13 +101,13 @@ def n2s(agents: Sequence[Union[AgentBase, str]]) -> str:
         + _get_name(agents[-1])
     )
 
-def team_description(team: list) -> str:
+def team_description(team: list, over_state: int) -> str:
     """combine agent names into a string, and use "and" to connect the last
     two names."""
     output_string = "{"
     i = 1
     for team_index in team:
-        if team_index.state != 6:
+        if team_index.state != over_state:
             output_string += f"team{i}: {team_index.teammate}"
             i = i + 1
             if i < len(team):
@@ -114,13 +116,13 @@ def team_description(team: list) -> str:
 
     return output_string
 
-def team_description_detail(team: list, agent_list: list) -> str:
+def team_description_detail(team: list, agent_list: list, over_state: int) -> str:
     """combine agent names into a string, and use "and" to connect the last
     two names."""
     output_string = ""
     i=1
     for team_index in range(len(team)):
-        if team[team_index].state!=6:
+        if team[team_index].state!=over_state:
             team_list = team[team_index].teammate
             output_string += f"The Team{i} includes team members: {team_list}. "
             i=i+1
@@ -255,6 +257,39 @@ def paper_search(query : str,
 
     return papers
 
+# def process_file(file_path, id):
+#     try:
+#         print(id)
+#         with open(file_path, 'r') as file:
+#             file_content = file.read()
+#             file_dict_old = eval(file_content)
+#             file_dict = {
+#                 'title': file_dict_old.get('title'),
+#                 'abstract': file_dict_old.get('abstract'),
+#                 'id': id,
+#                 'authors': None,
+#                 'cite_papers': None
+#             }
+#             return file_dict
+#     except json.JSONDecodeError:
+#         print(f"文件 {file_path} 的内容不是有效的JSON格式，跳过该文件。")
+#         return None
+
+# def read_txt_files_as_dict(folder_path):
+#     dict_list = []
+#     id = 0
+#     with ThreadPoolExecutor() as executor:
+#         # 只处理 .txt 文件
+#         txt_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.endswith(".txt")]
+        
+#         # 并行处理文件
+#         results = list(tqdm(executor.map(lambda file: process_file(file, id), txt_files), total=len(txt_files)))
+
+#         # 过滤掉 None 结果
+#         dict_list = [res for res in results if res is not None]
+        
+#     return dict_list
+
 def read_txt_files_as_dict(folder_path):
     dict_list = []  # 用于存储所有文件的字典
     id = 0
@@ -376,9 +411,9 @@ def save2database(paper_list : list[dict], output_dir : str):
     cursor.close()
     conn.close()
 
-def count_team(team_list: list[dict]):
+def count_team(team_list: list[dict], over_state: int):
     num = 0
     for team in team_list:
-        if team.state<6:
+        if team.state<over_state:
             num = num+1
     return num

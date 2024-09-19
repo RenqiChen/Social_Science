@@ -52,12 +52,15 @@ class Platform:
                  hop_num: int = 2,
                  group_max_discuss_iteration: int = 1,
                  recent_n_team_mem_for_retrieve: int = 1,
-                 team_limit: int = 3,
-                 check_iter: int = 3,
+                 team_limit: int = 2,
+                 check_iter: int = 5,
                  review_num: int = 2,
-                 max_teammember: int = 6,
+                 max_teammember: int = 3,
                  cite_number: int = 8,
-                 default_mark: int = 4
+                 default_mark: int = 4,
+                 skip_check: bool = True,
+                 over_state: int = 7,
+                 begin_state: int = 1
                  ):
         self.agent_num = agent_num
         self.paper_folder_path = paper_folder_path
@@ -77,6 +80,15 @@ class Platform:
         self.cite_number = cite_number
         # default review mark
         self.default_mark = default_mark
+        # check novelty
+        self.skip_check = skip_check
+        # current state for the over of team activity
+        self.over_state = over_state
+        # current state for the begin of team activity
+        self.begin_state = begin_state
+
+        # for quality, the team of one member will think more times
+        self.think_times = 6
 
         # author2paper file: dict{'authorID':[paperID1, paperID2, ...]}
         with open('{}/author2paper.json'.format(root_dir), 'r') as file:
@@ -214,12 +226,15 @@ class Platform:
         # decide whether the scientist wants to find partners
         for agent_index in range(len(scientists)):
             # avoid too many teams
-            if count_team(team_list[agent_index])>=self.team_limit:
+            if count_team(team_list[agent_index], self.over_state)>=self.team_limit:
+                # # choose to enforcely add the owner as a team
+                # if team_list[agent_index][0].state==1:
+                #     team_list[agent_index][0].state=2
                 continue
             hint = self.HostMsg(content=Prompts.ask_choice.format_map(
                 {
                     "Scientist_name": scientists[agent_index].name,
-                    "All_team": team_description(team_list[agent_index])
+                    "All_team": team_description(team_list[agent_index], self.over_state)
                 },
             ),
             )
@@ -266,7 +281,7 @@ class Platform:
             is_contained = False
             for agent_list in team_list:
                 for sublist in agent_list:
-                    if set(sublist.teammate) == set(team_candidate_after) and sublist.state != 6:
+                    if set(sublist.teammate) == set(team_candidate_after) and sublist.state != self.over_state:
                         is_contained = True
                         break
                 if is_contained == True:
@@ -292,12 +307,12 @@ class Platform:
                 if pattern.search(x.content):
                     team_index.append(agent.name)
                 team_list[agent_index][0].log_dialogue('user',hint.content)
-                team_list[agent_index][0].log_dialogue(scientists[agent_index].name,x.content)
+                team_list[agent_index][0].log_dialogue(agent.name,x.content)
             # delete repeated teams
             is_contained = False
             for agent_list in team_list:
                 for sublist in agent_list:
-                    if set(sublist.teammate) == set(team_index) and sublist.state != 6:
+                    if set(sublist.teammate) == set(team_index) and sublist.state != self.over_state:
                         is_contained = True
                         break
                 if is_contained == True:
@@ -307,13 +322,16 @@ class Platform:
                 team_dic.state=2
                 team_dic.teammate = team_index
                 team_list[agent_index].append(team_dic)
+
+                self.think_times = len(team_index)
+
                 # connetion between collaborators will be closer
                 for member in team_dic.teammate:
                     if int(member[9:])!=agent_index:
                         self.adjacency_matrix[agent_index,int(member[9:])]=self.adjacency_matrix[agent_index,int(member[9:])]+0.2
                         self.adjacency_matrix[int(member[9:]),agent_index]=self.adjacency_matrix[int(member[9:]),agent_index]+0.2
                 # summary current teams in memory
-                scientists[agent_index].prompt_reply(self.HostMsg(content=team_description_detail(team_list[agent_index], self.agent_pool)))
+                scientists[agent_index].prompt_reply(self.HostMsg(content=team_description_detail(team_list[agent_index], self.agent_pool, self.over_state)))
             else:
                 continue
         return team_list
@@ -333,9 +351,14 @@ class Platform:
         exit = False
         # output return dialogue history, summarization of the last turn, and memory of the last turn
         output = {}
-        said = []
         # start discussing
+        if len(teammate)==1:
+            self.group_max_discuss_iteration = self.think_times
+        else:
+            self.group_max_discuss_iteration = 1
+
         for turn in range(self.group_max_discuss_iteration):
+            said = []
             # init turn_memory for each turn
             turn_history = TemporaryMemory(None)
             agent_num = 0
@@ -495,32 +518,21 @@ class Platform:
         old_idea = None
         best_idea = None
         # search related paper about the topic
-        selected_topics = topic.split("Selected Topics:")[-1].strip()
-        query_vector = ollama.embeddings(model="mxbai-embed-large", prompt=selected_topics)
-        query_vector = np.array([query_vector['embedding']])
-        D, I = self.gpu_index.search(query_vector, self.cite_number)
-
-        paper_use = []
-        for id in range(len(I[0])):
-            paper_title = self.paper_dicts[I[0][id]]['title']
-            paper_abstract = self.paper_dicts[I[0][id]]['abstract']
-            paper_index = {}
-            paper_index['title'] = paper_title
-            paper_index['abstract'] = paper_abstract
-            paper_use.append(paper_index)
-        paper_reference = ""
-        for id in range(len(paper_use)):
-            paper_index = paper_use[id]
-            paper_reference = paper_reference+"Paper {}:".format(id+1)+"\n"
-            paper_reference = paper_reference+"Title: "+paper_index['title']+"\n"
-            paper_reference = paper_reference+"Abstract: "+paper_index['abstract']+"}"+"\n"
+        selected_topics = strip_non_letters(topic.split("Selected Topics:")[-1])
+        paper_reference, cite_paper = self.reference_paper(selected_topics)
 
         teammate = self.id_to_agent(team.teammate)
         idea_judge = True
+
+        if len(teammate)==1:
+            self.group_max_discuss_iteration = self.think_times
+        else:
+            self.group_max_discuss_iteration = 1
+
         for turn in range(self.group_max_discuss_iteration):
             # discuss the idea
             for agent in teammate:
-                idea_prompt = Prompts.prompt_existing_idea.format(old_idea)+Prompts.prompt_task+ \
+                idea_prompt = Prompts.prompt_task+Prompts.prompt_existing_idea.format(old_idea)+ \
                               Prompts.prompt_topic.format(selected_topics)+Prompts.prompt_reference.format(paper_reference)+ \
                               Prompts.prompt_response
                 agent_prompt = format_msg(
@@ -529,6 +541,82 @@ class Platform:
                 )
                 reply = agent.prompt_reply(agent_prompt, add_memory = False, use_memory = False, use_RAG=False)
                 team.log_dialogue('user',idea_prompt)
+                team.log_dialogue(agent.name,reply.content)
+                old_idea = extract_between_json_tags(reply.content, num=1)
+                idea_key = old_idea.split("Idea")[1]
+                idea_key = strip_non_letters(idea_key.split("Title")[0])
+                print(idea_key)
+                paper_reference, cite_paper_new = self.reference_paper(idea_key)
+                cite_paper = list(set(cite_paper).union(cite_paper_new))
+
+                # find the metric
+                split_keywords = ['Interestingness', 'Feasibility', 'Novelty']
+                metrics = extract_metrics(old_idea, split_keywords)
+                if best_idea != None:
+                    if old_idea == best_idea:
+                        idea_judge=True
+                        print("exit early!!!!!!")
+                        break
+                    best_metrics = extract_metrics(best_idea, split_keywords)
+                    old_count = 0
+                    best_count = 0
+                    for split_keywork in split_keywords:
+                        old_count = old_count + metrics[split_keyword]
+                        best_count = best_count + best_metrics[split_keyword]
+                    if old_count>=best_count:
+                        best_idea = old_idea
+                else:
+                    best_idea = old_idea
+                # if all metrics are larger than 8, then over
+                for split_keyword in split_keywords:
+                    if metrics[split_keyword]<8:
+                        idea_judge=False
+                        break
+                if idea_judge:
+                    best_idea=old_idea
+                    break
+            if idea_judge:
+                break
+        if team.idea == None:
+            team.idea = best_idea
+        print("Final Idea:")
+        print(team.idea)
+        if self.skip_check:
+            team.state=5
+        else:
+            team.state=4
+        team.citation_id = cite_paper
+        print(len(team.citation_id))
+        return team
+
+    def check_novelty(self, team):
+        existing_idea = team.idea
+        old_idea = None
+        best_idea = None
+
+        title = existing_idea.split("Title")[1]
+        title = strip_non_letters(title.split("Experiment")[0])
+        related_papers = paper_search(title, top_k=int(self.cite_number/2))
+
+        paper_reference = ""
+        for id in range(len(related_papers)):
+            paper_index = related_papers[id]
+            paper_reference = paper_reference+"Paper {}:".format(id+1)+"\n"
+            paper_reference = paper_reference+"Title: "+paper_index['title']+"\n"
+            paper_reference = paper_reference+"Abstract: "+paper_index['abstract']+"}"+"\n"
+
+        teammate = self.id_to_agent(team.teammate)
+        novelty_judge = True
+        for turn in range(self.group_max_discuss_iteration):
+            # discuss the idea
+            for agent in teammate:
+                idea_novelty_prompt = Prompts.prompt_idea_check+Prompts.prompt_idea_check_response.replace("{existing_idea}", existing_idea).replace("{last_query_results}",paper_reference)
+                agent_prompt = format_msg(
+                    # prompt
+                    Msg(name="user", role="user", content=idea_novelty_prompt),
+                )
+                reply = agent.prompt_reply(agent_prompt, add_memory = False, use_memory = False, use_RAG=False)
+                team.log_dialogue('user',idea_novelty_prompt)
                 team.log_dialogue(agent.name,reply.content)
                 old_idea = extract_between_json_tags(reply.content, num=1)
                 # find the metric
@@ -567,6 +655,11 @@ class Platform:
         idea = team.idea
         old_abstract = team.abstract
         teammate = self.id_to_agent(team.teammate)
+
+        if len(teammate)==1:
+            self.group_max_discuss_iteration = self.think_times
+        else:
+            self.group_max_discuss_iteration = 1
 
         for turn in range(self.group_max_discuss_iteration):
             # discuss the abstract
@@ -607,8 +700,8 @@ class Platform:
         while len(related_papers)==0:
             related_papers = paper_search(title, top_k=int(self.cite_number/2))
             iter += 1
-            if iter > self.check_iter:
-                break
+            # if iter > self.check_iter:
+            #     break
         # check the similarity compared with private database
         query_vector = ollama.embeddings(model="mxbai-embed-large", prompt=title)
         query_vector = np.array([query_vector['embedding']])
@@ -623,6 +716,8 @@ class Platform:
             related_papers.append(paper_index)
         print('related papers:')
         print(len(related_papers))
+        if len(related_papers)>0:
+            team.log_dialogue('arxiv',related_papers)
         # find paper successfully
         if len(related_papers)>0:
             abstract_check_prompt = Prompts.prompt_abstract_check.replace("[Insert your abstract here]", old_abstract)
@@ -654,7 +749,7 @@ class Platform:
             print('Final Abstract:')
             print(team.abstract)
             if abstract_use:
-                team.state=5
+                team.state=6
                 team.self_review=None
             # if the abstract is too similar one time, go to revise, otherwise back to generate idea
             else:
@@ -673,7 +768,7 @@ class Platform:
                 team.abstract = old_abstract
                 print('Final Abstract:')
                 print(team.abstract)
-                team.state=5
+                team.state=6
         return team
 
     def generate_review(self, team):
@@ -703,7 +798,7 @@ class Platform:
                     mark_sum = mark_sum + metric[split_keyword]
         if mark_sum>=(5*self.reviewer_num):
             print('paper accept!!!!!!')
-            team.state=6
+            team.state=self.over_state
             title = old_abstract.split("Abstract")[0]
             title = strip_non_letters(title.split("Title")[1])
             abstract = strip_non_letters(old_abstract.split("Abstract")[1])
@@ -721,7 +816,7 @@ class Platform:
             response = np.array(embedding_list)
             self.gpu_index.add(response)
         else:
-            team.state = 4
+            team.state = 5
         return team
 
     def add_author(self, team):
@@ -794,7 +889,7 @@ class Platform:
                         break
                 if is_contained == False:
                     team.teammate.append(agent.name)
-        team.state = 4
+        team.state = 5
         return team
 
     def id_to_agent(self, team_list):
@@ -808,21 +903,44 @@ class Platform:
         for agent_id in team_list:
             agent_list.append(agent_id.name)
         return agent_list
+    
+    def reference_paper(self, key_string):
+        query_vector = ollama.embeddings(model="mxbai-embed-large", prompt=key_string)
+        query_vector = np.array([query_vector['embedding']])
+        D, I = self.gpu_index.search(query_vector, self.cite_number)
+
+        paper_use = []
+        for id in range(len(I[0])):
+            paper_title = self.paper_dicts[I[0][id]]['title']
+            paper_abstract = self.paper_dicts[I[0][id]]['abstract']
+            paper_index = {}
+            paper_index['title'] = paper_title
+            paper_index['abstract'] = paper_abstract
+            paper_use.append(paper_index)
+        paper_reference = ""
+        for id in range(len(paper_use)):
+            paper_index = paper_use[id]
+            paper_reference = paper_reference+"Paper {}:".format(id+1)+"\n"
+            paper_reference = paper_reference+"Title: "+paper_index['title']+"\n"
+            paper_reference = paper_reference+"Abstract: "+paper_index['abstract']+"}"+"\n"
+        return paper_reference, I[0]
 
     def action_excution(self, value, epoch):
         action_dict = {
             2: self.select_topic,
             3: self.generate_idea,
-            4: self.generate_abstract,
-            5: self.generate_review
+            4: self.check_novelty,
+            5: self.generate_abstract,
+            6: self.generate_review
         }
         log_dict = {
             2: 'begin select topic',
             3: 'begin generate idea',
-            4: 'begin generate abstract',
-            5: 'begin generate review'
+            4: 'begin check novelty',
+            5: 'begin generate abstract',
+            6: 'begin generate review'
         }
-        if value>1 and value<6:
+        if value>self.begin_state and value<self.over_state:
             print(f'Epoch{epoch}-------------------{log_dict[value]}')
         return action_dict.get(value, None)
 
@@ -832,9 +950,10 @@ class Platform:
         self.team_pool = self.select_coauthors()
         for epoch in range(epochs):
             # state 6 is an over
-            # 1. generate paper review for state 5
-            # 2. generate paper abstract for state 4
-            # 3. generate idea for state 3
+            # 1. generate paper review for state 6
+            # 2. generate paper abstract for state 5
+            # 3. generate idea for state 4
+            # 4. check novelty for state 3
             # 4. select topics for state 2
             # 5. select coauthors for state 1
             for agent_index in range(len(self.team_pool)):
