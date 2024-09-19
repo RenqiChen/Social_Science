@@ -4,7 +4,7 @@ Forker from [AgentScope](https://github.com/modelscope/agentscope).
 
 We use Meta-Llama-3-8B-Instruct as local model.
 
-salloc --gres=gpu:4 -p vip_gpu_ailab -A ai4agr
+salloc --gres=gpu:2 -p vip_gpu_ailab -A ai4agr
 
 module load anaconda/2021.11
 
