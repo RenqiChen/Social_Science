@@ -1,4 +1,6 @@
 import os
+import sys
+sys.path.append('../agentscope-main/src')
 import logging
 from agentscope.memory import TemporaryMemory
 class Team:
@@ -41,7 +43,9 @@ class Team:
         self.logger.addHandler(fh)
 
     def log_dialogue(self, name, content):
+        self.logger.info('------------------------------------------------------------------------------------------------------------------------------------------')
         self.logger.info(f'Epoch:{self.epoch} | {self.state_log[self.state]} | {name}:{content}')
+        self.logger.info('------------------------------------------------------------------------------------------------------------------------------------------')
 
 if __name__=='__main__':
     team1 = Team('LPL')

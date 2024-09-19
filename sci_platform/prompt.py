@@ -29,8 +29,9 @@ class Prompts:
         "Reasoning: [Explain why you chose this action, considering factors like the potential for quality, efficiency, and the challenges involved.]"
     )
 
-    to_start_topic_discussion = """Engage in a collaborative discussion to explore and identify potential research topics that align with our team's strengths and goals.
-    Please focus more on the discussion of the topic rather than on self-introduction.
+    to_start_topic_discussion = """Engage in a collaborative discussion by integrating your own knowledge and 
+    insights with the information provided to explore and identify potential research topics that 
+    align with our team's strengths and goals. Please focus more on the discussion of the topic rather than on self-introduction.
     """
     
     # To do
@@ -73,9 +74,10 @@ class Prompts:
     to_ask_topic = "Please give me the topic you select using the following format: "\
     "Selected Topics: Topic 1"
 
-    prompt_existing_idea = "Here are the ideas that your team has already generated: '''{}'''\n"
+    prompt_existing_idea = "Here is the idea that your team has already generated: '''{}'''\n"
 
-    prompt_task = "Improve this idea or come up with the next impactful and creative idea for publishing a paper that will contribute significantly to the field."+"\n"
+    prompt_task = """Improve this idea or come up with the next impactful and creative idea for publishing a paper that 
+    will contribute significantly to the field by integrating your own knowledge and insights with the information provided."""+"\n"
     
     prompt_topic = ("When proposing your idea, please elaborate on the proposed topic: {}\n")
     
@@ -107,7 +109,28 @@ class Prompts:
     Be cautious and realistic on your ratings. This JSON will be automatically parsed, so ensure the format is precise, and the content should be longer than 600 words. You only need to output one idea.
     """)
 
-    prompt_abstract = """Based on the following research idea. Generate a concise and informative abstract for a scientific paper.""" 
+    prompt_idea_check = """You are an ambitious scientist who is looking to publish a paper that will contribute significantly to the field. 
+    Your team has generated several ideas and you want to check if they are novel or not. I.e., not overlapping significantly with existing literature or already well explored. 
+    Be a harsh critic for novelty, ensure there is a sufficient contribution in the idea for a new conference or workshop paper. 
+    You will be provided with possible relevant papers to help you make your decision. Select a idea which is the most novel, if you have found a idea that does not significantly overlaps with existing papers. 
+    """
+    
+    prompt_idea_check_response = """Your team generated these ideas: {existing_idea}.
+    The possible related papers are {last_query_results}.
+    Respond in the following format: 
+    THOUGHT: 
+    <THOUGHT>
+    RESPONSE: 
+    ```json 
+    <JSON> 
+    ``` 
+    In <THOUGHT>, explain why you make this selection. 
+    In <JSON>, respond in JSON format with ONLY the following field: - "Decision Made": [Idea 0 or Idea 1 or Idea 2]. 
+    Note that you can only select one idea. This JSON will be automatically parsed, so ensure the format is precise.
+    """
+
+    prompt_abstract = """Based on the following research idea, generate a concise and informative abstract for a scientific paper by integrating your own knowledge and 
+    insights with the information provided.""" 
 
     prompt_abstract_requirement = """The abstract should cover the following aspects:
 
@@ -143,7 +166,8 @@ class Prompts:
     7. **Originality**: Does it introduce new ideas, methods, or models? Are the data or experiments unique to the field? How does it extend or differ from existing research?
     8. **Overall Score**: The overall rating of this paper.
 
-    Provide a brief evaluation of each criterion by providing a rating from 1 to 10 (lowest to highest) and revise the abstract. Please note that your revised abstract should be longer than 200 words.
+    Provide a brief evaluation of each criterion by providing a rating from 1 to 10 (lowest to highest) and revise the abstract by integrating your own knowledge and 
+    insights with the information provided. Please note that your revised abstract should be longer than 200 words.
 
     **Original Abstract**: [Insert abstract here]
     """
@@ -160,7 +184,8 @@ class Prompts:
     7. **Originality**: Does it introduce new ideas, methods, or models? Are the data or experiments unique to the field? How does it extend or differ from existing research?
     8. **Overall Score**: The overall rating of this paper.
 
-    Provide a brief evaluation of each criterion by providing a rating from 1 to 10 (lowest to highest) and revise the abstract. Please note that your revised abstract should be longer than 200 words.
+    Provide a brief evaluation of each criterion by providing a rating from 1 to 10 (lowest to highest) and revise the abstract by integrating your own knowledge and 
+    insights with the information provided. Please note that your revised abstract should be longer than 200 words.
 
     Moreover, when making revisions, please consider the following evaluations about originality check.
 
@@ -170,9 +195,9 @@ class Prompts:
     """
 
     prompt_abstract_judgement_after_review = """
-    Please use the following peer review feedback to revise the research paper. 
-    Ensure that the revisions address each of the reviewers' comments and suggestions, while maintaining the overall coherence and quality of the paper. 
-    Please note that your revised abstract should be longer than 200 words.
+    Please use the following peer review feedback to revise the research paper by integrating your own knowledge and 
+    insights with the information provided. Ensure that the revisions address each of the reviewers' comments and suggestions, 
+    while maintaining the overall coherence and quality of the paper. Please note that your revised abstract should be longer than 200 words.
 
     **Peer Review Feedback**: [Insert Reviewer comments]
 

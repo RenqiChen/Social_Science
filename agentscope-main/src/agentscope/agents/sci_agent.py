@@ -287,7 +287,7 @@ class SciAgent(AgentBase):
         # Print/speak the message in this agent's voice
         self.speak(msg)
 
-        return response
+        return msg
 
     def reply(self, x: Optional[Union[Msg, Sequence[Msg]]] = None, use_RAG=True, use_memory=True) -> Msg:
         """
