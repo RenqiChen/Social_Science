@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="82512543-01fd-4adc-a8bb-7ebd2f19a6fb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/rSettings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1-turn-logs/20240919_205105_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1-turn-logs/20240919_205113_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1-turn-logs/20240919_205150_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1-turn-logs/20240919_205202_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1-turn-logs/20240919_205203_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1-turn-logs/20240919_205210_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1-turn-logs/20240919_205230_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1-turn-logs/20240919_205238_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1-turn-logs/20240919_205314_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1-turn-logs/20240919_205318_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240919_162207_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240919_162243_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240919_162647_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240919_162724_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240919_162932_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240919_163038_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240919_163044_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240919_163138_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240919_163747_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240919_163820_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240920_121821_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240920_121857_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240920_122438_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240920_122544_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240920_122737_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240920_122808_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240920_122813_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240920_122839_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240920_123511_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2-turn-logs/20240920_123549_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240919_165251_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240919_165403_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240919_171530_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240919_171605_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240919_173759_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240919_173846_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240919_174835_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240919_174916_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240919_175510_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240919_175537_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240920_124341_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240920_124412_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240920_124528_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240920_124605_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240920_124819_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240920_124917_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240920_133510_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240920_133554_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240920_133942_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3-turn-logs/20240920_134041_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240919_181405_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240919_181446_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240919_181642_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240919_181714_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240919_182044_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240919_182110_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240919_183352_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240919_183436_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240919_184122_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240919_184218_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_140307_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_140340_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_140558_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_140659_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_140938_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_141044_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_141201_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_141305_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_142445_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_142520_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_143111_1,1_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4-turn-logs/20240920_143146_1,2_dialogue.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_paper_search.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sci_platform/idea_generate.py" beforeDir="false" afterPath="$PROJECT_DIR$/sci_platform/idea_generate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sci_platform/logs/1,1_dialogue.log" beforeDir="false" afterPath="$PROJECT_DIR$/sci_platform/logs/1,1_dialogue.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sci_platform/logs/1,2_dialogue.log" beforeDir="false" afterPath="$PROJECT_DIR$/sci_platform/logs/1,2_dialogue.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sci_platform/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/sci_platform/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sci_platform/sci_platform.py" beforeDir="false" afterPath="$PROJECT_DIR$/sci_platform/sci_platform.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sci_platform/sci_team.py" beforeDir="false" afterPath="$PROJECT_DIR$/sci_platform/sci_team.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/sci_platform/scientist_utils.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/sci_platform/prompt.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/agentscope-main/src/agentscope/agents/sci_agent.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2lBRCIZbE5slQGhPmZapaXTwv10" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/4-turn-logs" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings sdk-home="$USER_HOME$/opt/anaconda3/bin/python3.8" working-directory="$PROJECT_DIR$/../learn_pytorch">
+        <option name="mySdkHome" value="$USER_HOME$/opt/anaconda3/bin/python3.8" />
+        <option name="myWorkingDirectory" value="$PROJECT_DIR$/../learn_pytorch" />
+      </console-settings>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/4-turn-logs" />
+      <recent name="$PROJECT_DIR$/3-turn-logs" />
+      <recent name="$PROJECT_DIR$/2-turn-logs" />
+      <recent name="$PROJECT_DIR$/1-turn-logs" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.test_paper_search">
+    <configuration name="cluster_community" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Social-Science" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/preprocess_data" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/preprocess_data/cluster_community.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Social-Science" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/opt/anaconda3/envs/multiagent4ss/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/plot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="preprocess_adjacency_matrix" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Social-Science" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/preprocess_data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/preprocess_data/preprocess_adjacency_matrix.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Social-Science" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/opt/anaconda3/envs/multiagent4ss/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_paper_search" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Social-Science" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="/" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="&lt;4b60efe4-b970-42e1-91fd-9d46bee0017e&gt;/shy/Social-Science/test_paper_search.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.cluster_community" />
+      <item itemvalue="Python.preprocess_adjacency_matrix" />
+      <item itemvalue="Python.test" />
+      <item itemvalue="Python.plot" />
+      <item itemvalue="Python.test_paper_search" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.test_paper_search" />
+        <item itemvalue="Python.plot" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.cluster_community" />
+        <item itemvalue="Python.preprocess_adjacency_matrix" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="82512543-01fd-4adc-a8bb-7ebd2f19a6fb" name="Changes" comment="" />
+      <created>1724651354220</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1724651354220</updated>
+      <workItem from="1724651356869" duration="2512000" />
+      <workItem from="1724653884246" duration="14596000" />
+      <workItem from="1724671727159" duration="29000" />
+      <workItem from="1724671758418" duration="8202000" />
+      <workItem from="1724728942487" duration="275077000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/agentscope-main/src/agentscope/service/web/dblp.py</url>
+          <line>102</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Social_Science$extract_relationship_in_time_range.coverage" NAME="extract_relationship_in_time_range Coverage Results" MODIFIED="1724658477890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/preprocess_data" />
+    <SUITE FILE_PATH="coverage/Social_Science$test.coverage" NAME="test Coverage Results" MODIFIED="1726834195452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Social_Science$cluster_community.coverage" NAME="cluster_community Coverage Results" MODIFIED="1725268172549" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/preprocess_data" />
+    <SUITE FILE_PATH="coverage/Social_Science$plot.coverage" NAME="plot Coverage Results" MODIFIED="1726835561748" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Social_Science$preprocess_adjacency_matrix.coverage" NAME="preprocess_adjacency_matrix Coverage Results" MODIFIED="1724663640589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/preprocess_data" />
+    <SUITE FILE_PATH="coverage/Social_Science$test_paper_search.coverage" NAME="test_paper_search Coverage Results" MODIFIED="1726835847489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="/" />
+    <SUITE FILE_PATH="coverage/Social_Science$test_platform.coverage" NAME="test_platform Coverage Results" MODIFIED="1724656080149" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/preprocess_data" />
+  </component>
+</project>
