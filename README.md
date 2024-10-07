@@ -22,9 +22,6 @@ To install the required packages, run:
 pip install -r requirements.txt.
 ```
 
-#### Note
-flash-attention need linux kernel higher than 5.5
-
 ### Setup
 
 We use the [COIG-CQIA](https://github.com/paralym/COIG-CQIA) dataset as an additional general dataset in this work to aviod losing generalization capability, which consists of multi tasks chinese Instruction Fine-tuning
@@ -45,16 +42,6 @@ Then, update the training command:
 ```bash
 --dataset ruozhiba, crop_dataset
 ```
-
-We recommend downloading the pre-trained model weights to the /train/model folder.
-```
-cd /train
-mkdir model
-```
-then download a pretraining model:
-[LLama3-8B](https://huggingface.co/meta-llama/Meta-Llama-3-8B) ,
-[InternLM2-7B](https://huggingface.co/internlm/internlm2-7b) ,
-[Qwen1.5-7B](https://huggingface.co/Qwen/Qwen1.5-7B) .
 
 ### Usage
 
