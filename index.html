@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Empowering and Assessing the Utility of Large Language Models in Crop Science">
+
+  <meta name="keywords" content="Empowering and Assessing the Utility of Large Language Models in Crop Science">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Empowering and Assessing the Utility of Large Language Models in Crop Science</title>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/interactive_figures.css">
+  
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- <script src="./static/js/index.js"></script> -->
+
+  <script src="https://kit.fontawesome.com/e8d9e5563c.js" crossorigin="anonymous"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        //do work
+      
+      const copyButtonLabel = "Copy BibTex";
+
+      // use a class selector if available
+      let blocks = document.querySelectorAll("pre");
+      console.log(blocks)
+      
+      blocks.forEach((block) => {
+        // only add button if browser supports Clipboard API
+        if (navigator.clipboard) {
+          let button = document.createElement("button");
+      
+          button.innerText = copyButtonLabel;
+          button.classList.add("btn");
+          button.classList.add("btn-primary");
+          button.style.alignContent = "center";
+          button.style.textAlign = "center";
+          block.parentElement.appendChild(button);
+      
+          button.addEventListener("click", async () => {
+            await copyCode(block, button);
+          });
+        }
+      });
+      
+      async function copyCode(block, button) {
+        let code = block.querySelector("code");
+        let text = code.innerText;
+      
+        await navigator.clipboard.writeText(text);
+      
+        // visual feedback that task is completed
+        button.innerText = "BibTex Copied!";
+      
+        setTimeout(() => {
+          button.innerText = copyButtonLabel;
+        }, 1000);
+      }
+  });
+  </script>
+
+  <style>
+
+    pre[class*="language-"] {
+      position: relative;
+      overflow: auto;
+    
+      /* make space  */
+      margin: 5px 0;
+      padding: 1.75rem 0 1.75rem 1rem;
+      border-radius: 10px;
+    }
+    
+    pre[class*="language-"] button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    
+      font-size: 0.9rem;
+      padding: 0.15rem;
+     
+    
+      border: ridge 1px;
+      border-radius: 5px;
+      text-shadow: #c4c4c4 0 0 2px;
+    }
+    
+    pre[class*="language-"] button:hover {
+      cursor: pointer;  
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Empowering and Assessing the Utility of Large Language Models in Crop Science</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <span class="author-block">
+                <a href="">Hang Zhang</a><sup>1*</sup>,</span>
+              <span class="author-block">
+                <a href="">Jiawei Sun</a><sup>1,4*</sup>,</span>
+              <span class="author-block">
+                <a href="">Renqi Chen</a><sup>1,5*</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Wei Liu</a><sup>1,6</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Zhonghang Yuan</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Xinzhe Zheng</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Zhefan Wang</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Zhiyuan Yang</a><sup>4</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Hang Yan</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Hansen Zhong</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Xiqing Wang</a><sup>3</sup>,
+              </span>
+               <span class="author-block">
+                <a href="">Fan Yang</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Nanqing Dong</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="">Wanli Ouyang</a><sup>1</sup>
+              </span>
+            </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Shanghai Artificial Intelligence Laboratory,</span>
+            <span class="author-block"><sup>2</sup>Yazhouwan National Laboratory,</span>
+            <span class="author-block"><sup>3</sup>China Agricultural University,</span>
+            <span class="author-block"><sup>4</sup>Hangzhou Dianzi University,</span>
+            <span class="author-block"><sup>5</sup>Fudan university,</span>
+            <span class="author-block"><sup>6</sup>Shanghai Jiaotong University</span>
+            <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
+          </div>
+          
+
+   
+
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <!-- Paper Link. -->
+                  <span class="link-block">
+                    <a href=" " 
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                          <i class="ai ai-arxiv"></i>
+                      </span>
+                      <span>arXiv (Comming Soon)</span>
+                    </a>
+                  </span>
+                  
+                  
+                  <!-- Code Link. -->
+                  <span class="link-block">
+                    <a href="https://github.com/RenqiChen/The_Crop"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                          <i class="fab fa-github"></i>
+                      </span>
+                      <span>Code</span>
+                      </a>
+                  </span>
+                  
+                  <!-- Dataset Link. -->
+                  <span class="link-block">
+                    <a href=""
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                          <i class="far fa-images"></i>
+                      </span>
+                      <span>Data (See Paper Appendix A)</span>
+                      </a>              
+                  </span>
+
+                  <!-- Demo Link. -->
+                  <span class="link-block">
+                    <a href="https://huggingface.co/AI4Agr" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                          <svg class="svg-inline--fa fa-laptop fa-w-20" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="laptop" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg=""><path fill="currentColor" d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z"></path></svg>
+                      </span>
+                      <span>Huggingface</span>
+                      </a>
+                  </span>
+                  <figure>
+                    <br>
+                    <img src="static/images/first_instruction.png" alt="fail" width="100%"">
+                    <figcaption class="content has-text-left"  style="word-break:normal"><b>Figure 1. Schematic overview of an intended use case.</b>
+                    By fine-tuning a base LLM using the proposed CROP dataset, 
+                    we obtain a new version whose answer becomes more accurate and comprehensive, which is validated by the proposed CROP benchmark objectively.</figcaption>
+                  </figure>
+            </div>
+          </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">👀 Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Large language models (LLMs) have demonstrated remarkable efficacy across knowledge-intensive tasks. 
+            Nevertheless, their untapped potential in crop science presents an opportunity for advancement. To narrow this gap, 
+            we introduce CROP, which includes a novel instruction tuning dataset specifically designed to enhance LLMs’ professional capabilities in the crop science sector, 
+            along with a benchmark that serves as a comprehensive evaluation of LLMs’ understanding of the domain knowledge. 
+            The CROP dataset is curated through a task-oriented and LLM-human integrated pipeline, comprising 210,038 single-turn and 1,871 multi-turn dialogues related to crop science scenarios. 
+            The CROP benchmark includes 5,045 multiple-choice questions covering three difficulty levels. 
+            Our experiments based on the CROP benchmark demonstrate notable enhancements in crop science-related tasks when LLMs are finetuned with the CROP dataset. 
+            To the best of our knowledge, CROP dataset is the first-ever instruction tuning dataset in the crop science domain. 
+            We anticipate that CROP will accelerate the adoption of LLMs in the domain of crop science, ultimately contributing to global food production.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section" id="dataset-browser">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <!-- Visual Effects. -->
+        <div class="column">
+          <div class="content" style="text-align:center;">
+            <h2 class="title is-3 has-text-centered">📚 Crop Dataset</h2>
+            <figure>
+              <br>
+              <img src="static/images/dataset_pre_distribution.png" alt="fail" width="100%"">
+              <figcaption class="content has-text-left" style="font-style: normal; word-break:normal"><b>Figure 2. Hierarchical view of tasks in CROP dataset.</b>
+           Dialogues can be single-turn or multi-turn
+(first tier). The second tier specifies task types. The third tier further decomposes these types into
+finer-grained tasks. Task-specified topics are rendered around the taxonomy.</figcaption>
+            </figure>
+            <figure>
+              <br>
+              <img src="static/images/single_turn_table.png" alt="fail" width="100%"">
+              <figcaption class="content has-text-left" style="font-style: normal; word-break:normal"><b>Table 1. Composition of single-turn dialogue dataset.</b>
+            Please note that despite our data-cleaning efforts,
+the final CROP dataset inevitably contain a small amount of data (<0.5%) from other grains like
+wheat. As this portion does not dominantly influence the fine-tuning results, it is included into the
+final CROP dataset. We have listed it explicitly in the table to avoid any misleading counts.</figcaption>
+            </figure>            
+            <figure>
+              <br>
+              <img src="static/images/multi_turn_table.png" alt="fail" width="100%"">
+              <figcaption class="content has-text-left" style="font-style: normal; word-break:normal"><b>Table 2. Composition of multi-turn dialogue dataset.</b>
+            <p style="color: rgb(129, 190, 206); display: inline;">Blue</p> denotes 3-turn dialogue, <p style="color: rgb(174, 198, 112); display: inline;">green</p> denotes 4-turn dialogue, and <p style="color: rgb(245, 187, 44); display: inline;">yellow</p> denotes 5-turn dialogue.</figcaption>
+            </figure>
+        </div>
+
+      </div>
+    </div>
+</section>
+
+      
+<section class="section" id="benchmark-browser">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <!-- Visual Effects. -->
+        <div class="column">
+          <div class="content" style="text-align:center;">
+            <h2 class="title is-3 has-text-centered">📈 Crop Benchmark</h2>
+            <figure>
+              <br>
+              <img src="static/images/benchmark_aft_distribution.png" alt="fail" width="80%"">
+              <figcaption class="content has-text-left" style="font-style: normal; word-break:normal"><b>Figure 3. Content distribution of benchmark.</b>
+           We list the keywords in the produced benchmark for a
+deeper insight. Darker colors indicate a higher frequency of occurrence, while lighter colors indicate
+a lower frequency of occurrence.</figcaption>
+            </figure>
+            <figure>
+              <br>
+              <img src="static/images/benchmark_table.png" alt="fail" width="50%"">
+              <figcaption class="content has-text-left" style="font-style: normal; word-break:normal"><b>Table 3. Statistics of the benchmark.</b></figcaption>
+            </figure>
+            <figure>
+              <br>
+              <img src="static/images/benchmark_comparison.png" alt="fail" width="100%"">
+              <figcaption class="content has-text-left" style="font-style: normal; word-break:normal"><b>Table 4. Benchmark Comparison.</b> CROP benchmark surpasses existing datasets in terms of quantity and locality.<br>
+              <sup>1</sup> https://www.certifiedcropadviser.org/become-certified/certifications/.<br>
+              <sup>2</sup> https://mais500p500r.sct.embrapa.br/view/index.php. For EMBRAPA, we count the number of test-based inquires related to rice and corn.<br>
+              <sup>3</sup> https://www.agriexam.com/agriculture-previous-year-question-paper.</figcaption>
+            </figure>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="section" id="experiments-browser">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <!-- Visual Effects. -->
+        <div class="column">
+          <div class="content" style="text-align:center;">
+            <h2 class="title is-3 has-text-centered">📦 Experiments</h2>
+            <figure>
+              <br>
+              <img src="static/images/experiments.png" alt="fail" width="100%"">
+              <figcaption class="content has-text-left" style="font-style: normal; word-break:normal"><b>Table 5. Performance of selected LLMs on the CROP benchmark.</b>
+              Open-source LLMs are tuned on the CROP dataset in 4 epochs. We indicate the accuracy changes of the fine-tuned LLMs compared
+            to the original in <p style="color: rgb(0, 0, 255); display: inline;">blue</p>, where the accuracy has generally improved across various difficulty levels.<br>
+           <sup>1</sup> GPT-4 API is “gpt-4-turbo-2024-04-09”. GPT-3.5 API is “gpt-3.5-turbo-0125”. Claude-3 API is “claude-3-opus-20240229”. Qwen API is “qwen-max”. <br>
+                <sup>2</sup> The accuracy of 0.000 and 1.000 is explained in Paper Section 4.3. </figcaption>
+            </figure>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- License. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">⚖ License</h2>
+        <div class="content has-text-justified">
+          <p>
+            The dataset and benchmark used in this project are CC BY NC 4.0 (allowing only non-commercial use).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+      
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3  has-text-centered">📌 Citation</h2>
+            <div class="language-css">
+            <pre style="">
+<code>
+  
+</code></pre>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is based on the <a href="https://nerfies.github.io/">Nerfies website template</a>, which is licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="./static/js/interactive_figures.js"></script>
+</body>
+</html>
