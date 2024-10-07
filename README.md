@@ -1,6 +1,6 @@
 # [Submitted to ICLR2025] <br> Crop Dataset and Benchmark.
 
-## 👀Introduction
+## 👀 Introduction
 
 This repository contains the code and data for our paper `Empowering and Assessing the Utility of Large Language Models in Crop Science`. 
 
