@@ -6,7 +6,7 @@ This repository contains the code and data for our paper `Empowering and Assessi
 
 We introduce CROP, which includes a novel instruction tuning dataset (Crop dataset) specifically designed to enhance LLMs’ professional capabilities in the crop science sector, along with a benchmark (Crop benchmark) that serves as a comprehensive evaluation of LLMs’ understanding of the domain knowledge. **To the best of our knowledge, Crop dataset is the first-ever instruction tuning dataset in the crop science domain. We anticipate that CROP will accelerate the adoption of LLMs in the domain of crop science, ultimately contributing to global food production.** 
 
-Our project website is [https://RenqiChen.github.io/The_Crop/](https://renqichen.github.io/Social_Science/).
+Our project website is [https://RenqiChen.github.io/Social_Science/](https://renqichen.github.io/Social_Science/).
 
 ## 💻 Training
 ### Environment
