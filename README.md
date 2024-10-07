@@ -4,7 +4,11 @@
 
 This repository contains the code for our paper `Two Heads Are Better Than One: A Multi-Agent System Has the Potential to Improve Scientific Idea Generation`. 
 
-We introduce CROP, which includes a novel instruction tuning dataset (Crop dataset) specifically designed to enhance LLMs’ professional capabilities in the crop science sector, along with a benchmark (Crop benchmark) that serves as a comprehensive evaluation of LLMs’ understanding of the domain knowledge. **To the best of our knowledge, Crop dataset is the first-ever instruction tuning dataset in the crop science domain. We anticipate that CROP will accelerate the adoption of LLMs in the domain of crop science, ultimately contributing to global food production.** 
+- To the best of our knowledge, we propose the first multi-agent system for conducting scientific collaborations in an end-to-end pipeline from team organization to novel scientific idea generation. Furthermore, the real data is utilized for role-play and the objective evaluation of final outputs.
+
+- We conduct extensive evaluations to investigate VirSci in terms of the team settings and the novelty of generated scientific ideas. The results demonstrate that multi-agent collaboration can improve the quality of the outcomes, surpassing the SOTA single-agent method.
+
+- The simulation results align with the important findings in Science of Science, such as fresh teams tend to create more innovative research, showcasing the potential of VirSci as a powerful tool for future research in this field.
 
 Our project website is [https://renqichen.github.io/Social_Science/](https://renqichen.github.io/Social_Science/).
 
