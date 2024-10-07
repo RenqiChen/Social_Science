@@ -12,7 +12,7 @@ This repository contains the code for our paper `Two Heads Are Better Than One: 
 
 Our project website is [https://renqichen.github.io/Social_Science/](https://renqichen.github.io/Social_Science/).
 
-## 💻 Training
+## 💡 Run
 ### Environment
 
 We tested our codebase with PyTorch 1.13.1 and CUDA 11.6. Please install the corresponding versions of PyTorch and CUDA based on your computational resources.
@@ -45,47 +45,11 @@ Then, update the training command:
 
 ### Usage
 
-To train local models using our dataset with LoRA, run:
-```
-CUDA_VISIBLE_DEVICES=0 python src/train_bash.py --stage sft --model_name_or_path ./train/model/Meta-Llama-3-8B  --do_train --dataset ruozhiba --finetuning_type lora  --lora_target q_proj,v_proj --output_dir /output --logging_steps 10 --save_steps 100 --num_train_epochs 4 --plot_loss --per_device_train_batch_size=4 --fp16 --template default --preprocessing_num_workers 1
-```
-This refined version should help you better understand and utilize the project. If you have any questions, feel free to reach out.
-
-## 💡 Prompt
-
-### Code
-
-(1) The codes for the prompts of Crop dataset are released in ./Code/prompt.
-
-Single-turn dialogue:
-
-CQA: closed-book QA
-
-OQA: open-book QA
-
-EE: event extraction
-
-NER: named entity recognition
-
-Summary: summary
-
-EN: English, CH: Chinese
-
-Multi-turn dialogue:
-
-EN: English, CH: Chinese
-
-(2) The codes for the prompts of Crop benchmark are released in ./Code/benchmark.
-
-### Usage
-
 Take closed-book QA prompt as an example:
 
 ```
-python prompt_cqa_en.py
+python run.py
 ```
-
-Please note to replace the input/output folder path and API key.
 
 ## 🙏 Acknowledgements
 
