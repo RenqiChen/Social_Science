@@ -3,6 +3,7 @@
 
 from loguru import logger
 from tqdm import tqdm
+from collections import Counter
 from typing import Union, Any, Sequence
 import numpy as np
 import json
@@ -10,8 +11,8 @@ import sqlite3
 import re
 import os
 import sys
-sys.path.append('agentscope-main/src')
 
+sys.path.append('agentscope-main/src')
 from agentscope.service import (
     dblp_search_publications,  # or google_search,
     arxiv_search
@@ -20,7 +21,6 @@ from agentscope.agents import AgentBase
 from agentscope.message import Msg
 
 from utils.prompt import Prompts
-from collections import Counter
 
 def check_winning(alive_agents: list, wolf_agents: list, host: str) -> bool:
     """check which group wins"""
@@ -200,6 +200,7 @@ def formated_msg2str(input):
 #         'http':'http://u-cEoRwn:EDvFuZTe@172.16.4.9:3128',
 #         'https':'http://u-cEoRwn:EDvFuZTe@172.16.4.9:3128',
 #     }
+
 
 #     start_year = 0 if start_year is None else start_year
 #     end_year = 9999 if end_year is None else end_year
