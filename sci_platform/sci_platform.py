@@ -178,40 +178,7 @@ class Platform:
         return agent
 
     def init_agent(self, agent_id, agent_model_config_name, adjacency_matrix, information_path):
-        # # load author info
-        # with open('{}/{}.json'.format(self.author_info_dir, self.agentID2authorID[agent_id]), 'r') as file:
-        #     author_info = json.load(file)
-
-        # author_id = author_info['author_id']
-        # author_name = author_info['author_name']
-        # author_affiliations = str(author_info['author_affiliations'])
-        # research_topics = str(author_info['research_topics'])
-        # paper_count = author_info['paper_count']
-        # citation_number = author_info['citation_number']
-        # connection = adjacency_matrix[int(agent_id)]
-        # connection = ['Scientist{}'.format(index) for index, value in enumerate(connection) if value != 0]
-
-        # author_affiliations_new = []
-        # for string in author_affiliations:
-        #     list_index = string.split(',')
-        #     if len(list_index)>2:
-        #         list_index = list_index[:-2]
-        #     string_index = ','.join(list_index)
-        #     author_affiliations_new.append(string_index)
-        # author_affiliations_new = list(set(author_affiliations_new))[:3]
-
-        # # prompt
-        # prompt = 'Your name is Scientist{}, ' \
-        #          'you belong to following affiliations {}, ' \
-        #          'you have researched on following topics {}, ' \
-        #          'you have published {} papers, ' \
-        #          'you have {} citations, '\
-        #          'you have previously collaborated with these individuals {}.'.format(agent_id,
-        #                                        author_affiliations_new,
-        #                                        research_topics,
-        #                                        paper_count,
-        #                                        citation_number,
-        #                                        connection)
+        # load author info
         with open(information_path, 'r') as file:
             prompt = file.read()
 
@@ -414,17 +381,17 @@ class Platform:
                 involved_scientist = extract_scientist_names(reply.content)
                 print(involved_scientist)
                 # judge whether someone is called to join the team
-                # for scientist_index in involved_scientist:
-                #     if scientist_index not in team.teammate:
-                #         if "by the way" in reply.content or "By the way" in reply.content:
-                #             hint = Msg(name=team.teammate[0],role="user",content=reply.content)
-                #             # invite new team member to comment
-                #             x = self.id2agent[scientist_index].reply(hint, use_memory=False, use_RAG=False)
-                #             if x.content is not None:
-                #                 said.append(scientist_index)
-                #                 team.teammate.append(scientist_index)
-                #                 team.log_dialogue(self.id2agent[scientist_index].name, x.content)
-                #                 teammate.append(self.id2agent[scientist_index])
+                for scientist_index in involved_scientist:
+                    if scientist_index not in team.teammate:
+                        if "by the way" in reply.content or "By the way" in reply.content:
+                            hint = Msg(name=team.teammate[0],role="user",content=reply.content)
+                            # invite new team member to comment
+                            x = self.id2agent[scientist_index].reply(hint, use_memory=False, use_RAG=False)
+                            if x.content is not None:
+                                said.append(scientist_index)
+                                team.teammate.append(scientist_index)
+                                team.log_dialogue(self.id2agent[scientist_index].name, x.content)
+                                teammate.append(self.id2agent[scientist_index])
 
                 turn_history.add(reply)
                 agent_num = agent_num + 1
@@ -735,49 +702,6 @@ class Platform:
                 if old_abstract == None:
                     old_abstract = reply.content
 
-        # find similar paper
-        # title = team.idea.split("Title")[1]
-        # title = strip_non_letters(title.split("Experiment")[0])
-        # title = old_abstract.split("Abstract")[0]
-        # title = strip_non_letters(title.split("Title")[1])
-        # prompt = """Given the following title and abstract, extract and return the most relevant 3 keywords that represent the core concepts of the content.
-
-        # {old_abstract}
-
-        # Please respond in the following format:
-
-        # ```json
-
-        # Keywords: keyword1, keyword2, keyword3, ...
-
-        # ```
-
-        # This JSON will be automatically parsed, so ensure the format is precise.
-        # """
-
-        # prompt = prompt.replace("{old_abstract}", old_abstract)
-        # response = ollama.chat(model='llama3.1', messages=[
-        #     {
-        #         'role': 'user',
-        #         'content': prompt,
-        #     },
-        #     ])
-
-        # keyword = extract_between_json_tags(response['message']['content'])
-        # if "Keywords" in keyword:
-        #     keyword = strip_non_letters(keyword.split("Keywords")[1])
-        # else:
-        #     keyword = strip_non_letters(keyword)
-        # keyword = keyword.strip("\n")
-        # print(keyword)
-        # related_papers = paper_search(keyword, top_k=int(self.cite_number/2), start_year=2011)
-        # iter = 1
-        # while len(related_papers)==0:
-        #     related_papers = paper_search(keyword, top_k=int(self.cite_number/2), start_year=2011)
-        #     iter += 1
-        # if iter > self.check_iter:
-        #     break
-        # check the similarity compared with private database
         related_papers = []
 
         Abstract = strip_non_letters(old_abstract.split("Abstract")[1])
@@ -938,79 +862,6 @@ class Platform:
             self.gpu_index.add(response)
         else:
             team.state = 5
-        return team
-
-    def add_author(self, team):
-        # prompt to start discussing select_topic
-        discuss_result = self.group_discuss(team, Prompts.to_start_add_author)
-        print('finish group discuss')
-        team_history = team.memory
-        dialogue_history = discuss_result['dialogue_history']
-        last_turn_history = discuss_result['last_turn_history']
-        last_turn_summarization = discuss_result['last_turn_summarization']
-
-        answer_prompt = format_msg(
-            # team history
-            Msg(name="Summarizations of previous team discussions", role="user", content='')
-            if team_history.size()>0 else None,
-            team_history.get_memory(recent_n=self.recent_n_team_mem_for_retrieve),
-            # dialogue history
-            Msg(name="Summarizations of previous turns in current team discussion", role="user", content='')
-            if dialogue_history.size()>0 else None,
-            dialogue_history.get_memory(recent_n=self.group_max_discuss_iteration),
-            # turn history
-            Msg(name="Discussions in this turn", role="user", content='')
-            if last_turn_history.size()>0 else None,
-            last_turn_history.get_memory(recent_n=last_turn_history.size()),
-            # answer_prompt
-            Msg(name="user", role="user", content=Prompts.to_ask_if_ready_add_authors)
-        )
-        answer = self.id2agent[team.teammate[0]].prompt_reply(answer_prompt, add_memory = False, use_memory=False)
-        answer_pattern = re.compile(r'action\s*1', re.IGNORECASE)
-
-        # update dialogue history
-        dialogue_history.add(last_turn_summarization)
-        dialogue_history.add(answer)
-
-        # check whether agent is ready to answer
-        if answer_pattern.search(answer.content):
-            print("Successfully!")
-
-            # select scientists randomly
-            team_candidate = []
-            match = re.search(r'Scientist(\d+)', team.teammate[0])
-            agent_index = match.group(1)
-            for i in range(len(self.adjacency_matrix)):
-                if (self.adjacency_matrix[agent_index,i]+1)*random.random() > 1.0 and i!=agent_index:
-                    team_candidate.append(f"Scientist{i}")
-            print(team_candidate)
-            agent_candidate = self.id_to_agent(team_candidate)
-            print(len(agent_candidate))
-
-            # create new team
-            for agent in agent_candidate:
-                team_temp = team.teammate
-                hint = self.HostMsg(content=Prompts.to_scientist_choice_add_author.format_map({
-                    "inviter_name": self.id2agent[team.teammate[0]].name,
-                    "personal information" : convert_you_to_other(self.id2agent[team.teammate[0]].sys_prompt),
-                    "team_memory" : team.memory.get_memory(recent_n=1),
-                    "team_list" : team.teammate,
-                }))
-                pattern = re.compile(r'action\s*1', re.IGNORECASE)
-                # action1 is to accept the invitation
-                if pattern.search(agent.reply(hint, use_RAG=False, use_memory=False).content):
-                    print("Successfully!")
-                    team_temp.append(agent.name)
-
-                # delete repeated teams
-                is_contained = False
-                for sub_list in self.team_pool[agent_index]:
-                    is_contained = (set(sub_list.teammate) == set(team_temp))
-                    if is_contained == True:
-                        break
-                if is_contained == False:
-                    team.teammate.append(agent.name)
-        team.state = 5
         return team
 
     def id_to_agent(self, team_list):
