@@ -530,7 +530,7 @@ class Platform:
                 cite_paper = list(set(cite_paper).union(cite_paper_new))
 
                 # find the metric
-                split_keywords = ['Interestingness', 'Feasibility', 'Novelty']
+                split_keywords = ['Clarity', 'Feasibility', 'Novelty']
                 metrics = extract_metrics(old_idea, split_keywords)
                 if best_idea != None:
                     if old_idea == best_idea:
@@ -923,8 +923,5 @@ class Platform:
                         if self.team_pool[leader_index][team_index].state == 7:
                             self.team_pool[leader_index][team_index].save_team_info()
                         print(f'Epoch{epoch}-------------------current action finished')
-            print(f'Epoch{epoch}-------------------begin select authors')
-            self.team_pool = self.select_coauthors()
-            print(f'Epoch{epoch}-------------------current action finished')
         output_dir = "/home/bingxing2/ailab/scxlab0066/SocialScience/database/database.db"
         save2database(self.paper_dicts, output_dir)

@@ -26,9 +26,10 @@ class Team:
             1: 'WAIT',
             2: 'TOPIC',
             3: 'IDEA',
-            4: 'ABSTRACT',
-            5: 'REVIEW',
-            6: 'FINISH'
+            4: 'CHECK',
+            5: 'ABSTRACT',
+            6: 'REVIEW',
+            7: 'FINISH'
         }
 
         # init log file
