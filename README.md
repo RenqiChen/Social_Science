@@ -28,6 +28,8 @@ Our prepocessed dataset is publicly available at https://drive.google.com/drive/
 
 - Past paper database is put in the `Papers/papers.tar.gz`, the corresponding embedding database is put in the `Embeddings/faiss_index.index`.
 - Contemporary paper database is put in the `Papers/papers_future.tar.gz`, the corresponding embedding database is put in the `Embeddings/faiss_index_future.index`.
+- Author knowledge bank is put in the `Authors/books.tar`.
+- Adjacency matrix is put in the `adjacency.txt`.
 
 Then, update the training command:
 
