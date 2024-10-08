@@ -33,15 +33,7 @@ After preprocessing, the used data is publicly available at [Google Drive](https
 - Author knowledge bank is put in the `Authors/books.tar`.
 - Adjacency matrix is put in the `adjacency.txt`.
 
-Then, update the training command:
-
-```bash
---dataset ruozhiba, crop_dataset
-```
-
 ### Usage
-
-Take closed-book QA prompt as an example:
 
 ```
 python run.py
