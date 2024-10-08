@@ -103,8 +103,10 @@ class Prompts:
 
     prompt_existing_idea = "Here is the idea that your team has already generated: '''{}'''\n"
 
-    prompt_task = """Improve this idea or come up with the next impactful and creative idea for publishing a paper that 
-    will contribute significantly to the field by integrating your own knowledge and insights with the information provided."""+"\n"
+    prompt_task = """
+    You are an ambitious scientist who is looking to propose a new idea that will contribute significantly to the field.
+    Improve the existing idea or come up with the next impactful and creative idea for publishing a paper that will contribute significantly to the field by integrating your own knowledge and insights with the information provided.
+    Improve this idea or come up with the next impactful and creative idea for publishing a paper that will contribute significantly to the field by integrating your own knowledge and insights with the information provided."""+"\n"
     
     prompt_topic = ("When proposing your idea, please elaborate on the proposed topic: {}\n")
     
@@ -121,25 +123,23 @@ class Prompts:
 
     New Idea: ```json<JSON>```
 
-    In <THOUGHT>, first briefly discuss your intuitions and motivations for the idea. 
-    Detail your high-level plan, necessary design choices and ideal outcomes of the experiments. 
-    Justify how the idea is different from the existing ones. 
+    In <THOUGHT>, briefly discuss your intuitions and motivations for the idea. Justify how this idea differs from existing ones, highlighting its unique aspects.
 
     In <JSON>, provide the new idea with the following fields and provide as many details as possible: 
-    - "Idea": A detailed description of the idea. 
-    - "Title": A title for the idea, will be used for the report writing. 
-    - "Experiment": An outline of the implementation. E.g. which functions need to be added or modified, how results will be obtained, ...
-    - "Interestingness": A rating from 1 to 10 (lowest to highest).
-    - "Feasibility": A rating from 1 to 10 (lowest to highest). 
-    - "Novelty": A rating from 1 to 10 (lowest to highest). 
-
+    - "Idea": A detailed description of the idea, outlining its significance and potential impact.
+    - "Title": A title for the idea, will be used for the paper writing. 
+    - "Experiment": An outline of the implementation process. Describe your high-level design plan, including necessary design steps and the ideal outcomes of the experiments.
+    - “Clarity": A rating from 1 to 10, with 1 being the lowest clarity and 10 being the highest.
+    - "Feasibility": A rating from 1 to 10, with 1 indicating low feasibility and 10 indicating high feasibility.
+    - "Novelty": A rating from 1 to 10, with 1 being the least novel and 10 being the most novel.
+    
     Be cautious and realistic on your ratings. This JSON will be automatically parsed, so ensure the format is precise, and the content should be longer than 600 words. You only need to output one idea.
     """)
 
     prompt_idea_check = """You are an ambitious scientist who is looking to publish a paper that will contribute significantly to the field. 
     Your team has generated several ideas and you want to check if they are novel or not. I.e., not overlapping significantly with existing literature or already well explored. 
-    Be a harsh critic for novelty, ensure there is a sufficient contribution in the idea for a new conference or workshop paper. 
-    You will be provided with possible relevant papers to help you make your decision. Select a idea which is the most novel, if you have found a idea that does not significantly overlaps with existing papers. 
+    Be a harsh critic for novelty, ensure there is a sufficient contribution in the idea for a new conference or workshop paper. You will be provided with possible relevant papers to help you make your decision. 
+    Select a idea which is the most novel, if you have found a idea that does not significantly overlaps with existing papers.
     """
     
     prompt_idea_check_response = """Your team generated these ideas: {existing_idea}.
