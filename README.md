@@ -49,7 +49,7 @@ Our code support different collaboration settings. The commonly used arguments:
 
 `--max_team_member`: the max team member of a team (including the leader)
 
-`--epochs`: the allowed time steps for one program run
+`--epochs`: the allowed time steps for one program run (default value is 6, which is enough for a scientist to finish all steps)
 
 ## 🙏 Acknowledgements
 
