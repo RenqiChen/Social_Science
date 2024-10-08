@@ -1,5 +1,5 @@
 from sci_platform import Platform
-from scientist_utils import read_txt_files_as_dict
+from utils.scientist_utils import read_txt_files_as_dict
 import os
 import argparse
 def parse_arguments():
@@ -32,13 +32,13 @@ def parse_arguments():
     parser.add_argument(
         "--max_discuss_iteration",
         type=int,
-        default=7,
+        default=2,
         help="Max discuss iteration.",
     )
     parser.add_argument(
         "--max_team_member",
         type=int,
-        default=4,
+        default=2,
         help="Max team mamber of a team, actual team size is max_team_member.",
     )
     parser.add_argument(
@@ -61,18 +61,27 @@ if __name__ == '__main__':
     os.makedirs(args.log_dir, exist_ok=True)
 
     while end==False:
-        try:
-            platform_example = Platform(
-                team_limit = args.team_limit,
-                group_max_discuss_iteration = args.max_discuss_iteration,
-                max_teammember = args.max_team_member-1,
-                log_dir = args.log_dir,
-                info_dir = args.save_dir
-            )
-            platform_example.running(args.epochs)
-        except:
-            pass
-
+        print(f'{len(os.listdir(args.save_dir))} files are created...')
+        platform_example = Platform(
+            team_limit = args.team_limit,
+            group_max_discuss_iteration = args.max_discuss_iteration,
+            max_teammember = args.max_team_member-1,
+            log_dir = args.log_dir,
+            info_dir = args.save_dir
+        )
+        platform_example.running(args.epochs)
+        # try:
+        #     platform_example = Platform(
+        #         team_limit = args.team_limit,
+        #         group_max_discuss_iteration = args.max_discuss_iteration,
+        #         max_teammember = args.max_team_member-1,
+        #         log_dir = args.log_dir,
+        #         info_dir = args.save_dir
+        #     )
+        #     platform_example.running(args.epochs)
+        # except:
+        #     pass
+        break
         if len(os.listdir(args.save_dir)) >= args.team_limit*args.runs:
             end = True
 

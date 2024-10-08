@@ -1,27 +1,25 @@
 # -*- coding: utf-8 -*-
 """utils."""
 
+from loguru import logger
+from tqdm import tqdm
+from typing import Union, Any, Sequence
+import numpy as np
+import json
+import sqlite3
+import re
+import os
 import sys
 sys.path.append('agentscope-main/src')
+
 from agentscope.service import (
     dblp_search_publications,  # or google_search,
     arxiv_search
 )
-import re
-from typing import Union, Any, Sequence
-
-import numpy as np
-from loguru import logger
-
-# from prompt import Prompts
 from agentscope.agents import AgentBase
 from agentscope.message import Msg
-import os
-from tqdm import tqdm
-import json
-import sqlite3
 
-from concurrent.futures import ThreadPoolExecutor
+from utils.prompt import Prompts
 from collections import Counter
 
 def check_winning(alive_agents: list, wolf_agents: list, host: str) -> bool:
@@ -38,9 +36,9 @@ def check_winning(alive_agents: list, wolf_agents: list, host: str) -> bool:
 
 
 def update_alive_players(
-    survivors: Sequence[AgentBase],
-    wolves: Sequence[AgentBase],
-    dead_names: Union[str, list[str]],
+        survivors: Sequence[AgentBase],
+        wolves: Sequence[AgentBase],
+        dead_names: Union[str, list[str]],
 ) -> tuple[list, list]:
     """update the list of alive agents"""
     if not isinstance(dead_names, list):
@@ -96,9 +94,9 @@ def n2s(agents: Sequence[Union[AgentBase, str]]) -> str:
         return _get_name(agents[0])
 
     return (
-        ", ".join([_get_name(_) for _ in agents[:-1]])
-        + " and "
-        + _get_name(agents[-1])
+            ", ".join([_get_name(_) for _ in agents[:-1]])
+            + " and "
+            + _get_name(agents[-1])
     )
 
 def team_description(team: list, over_state: int) -> str:
@@ -142,8 +140,8 @@ def convert_you_to_other(origin: str) -> str:
 
 
 def set_parsers(
-    agents: Union[AgentBase, list[AgentBase]],
-    parser_name: str,
+        agents: Union[AgentBase, list[AgentBase]],
+        parser_name: str,
 ) -> None:
     """Add parser to agents"""
     if not isinstance(agents, list):
@@ -185,18 +183,96 @@ def format_msg(*input: Union[Msg, Sequence[Msg]]) -> list:
 
     return input_msgs
 
+def formated_msg2str(input):
+    input_strs = []
+    for msg in input:
+        input_strs.append(msg.name + ':' + msg.content)
+    return '\n'.join(input_strs)
+
+# def paper_search(query : str,
+#                  top_k : int = 8,
+#                  start_year : int = None,
+#                  end_year : int = None,
+#                  search_engine : str = 'arxiv') -> list:
+#     """Given a query, retrieve k abstracts of similar papers from google scholar"""
+
+#     proxy = {
+#         'http':'http://u-cEoRwn:EDvFuZTe@172.16.4.9:3128',
+#         'https':'http://u-cEoRwn:EDvFuZTe@172.16.4.9:3128',
+#     }
+
+#     start_year = 0 if start_year is None else start_year
+#     end_year = 9999 if end_year is None else end_year
+#     papers = []
+#     if search_engine == 'google scholar':
+#         # retrieval_results = scholarly.search_pubs(query)
+#         retrieval_results = []
+#     elif search_engine == 'dblp':
+#         retrieval_results = dblp_search_publications(query, num_results = top_k)['content']
+#     else:
+#         temp_results = arxiv_search(query, max_results = top_k, proxy = proxy).content
+#         if isinstance(temp_results, dict):
+#             retrieval_results = temp_results['entries']
+#         else:
+#             retrieval_results = []
+#             print(temp_results)
+
+#     for paper in retrieval_results:
+
+#         if len(papers) >= top_k:
+#             break
+
+#         try:
+#             pub_year = paper.get('published', None)[:4]
+#         except:
+#             pub_year = paper.get('year', None)
+
+#         if pub_year and start_year <= int(pub_year) <= end_year:
+#             if search_engine == 'google scholar':
+#                 paper_info = {
+#                     'title': paper.get('title'),
+#                     'authors': paper.get('authors'),
+#                     'year': pub_year,
+#                     'abstract': paper.get('abstract'),
+#                     'url': paper.get('url'),
+#                     'venue': paper.get('venue')
+#                 }
+#             elif search_engine == 'dblp':
+#                 paper_info = {
+#                     'title': paper.get('title'),
+#                     'authors': paper.get('authors'),
+#                     'year': pub_year,
+#                     'abstract': paper.get('abstract'),
+#                     'url': paper.get('url'),
+#                     'venue': paper.get('venue')
+#                 }
+#             else:
+#                 paper_info = {
+#                     'title': paper.get('title'),
+#                     'authors': ','.join(paper.get('authors')),
+#                     'year': pub_year,
+#                     'abstract': paper.get('summary'),
+#                     'pdf_url': paper.get('url'),
+#                     'venue': paper.get('comment')
+#                 }
+
+#             # print(paper_info)
+#             papers.append(paper_info)
+
+#     return papers
+
 def paper_search(query : str,
                  top_k : int = 8,
                  start_year : int = None,
                  end_year : int = None,
                  search_engine : str = 'arxiv') -> list:
     """Given a query, retrieve k abstracts of similar papers from google scholar"""
-    
+
     proxy = {
         'http':'http://u-cEoRwn:EDvFuZTe@172.16.4.9:3128',
         'https':'http://u-cEoRwn:EDvFuZTe@172.16.4.9:3128',
     }
-    
+
     start_year = 0 if start_year is None else start_year
     end_year = 9999 if end_year is None else end_year
     papers = []
@@ -266,6 +342,7 @@ def paper_search(query : str,
 
     return papers
 
+
 # def process_file(file_path, id):
 #     try:
 #         print(id)
@@ -290,13 +367,13 @@ def paper_search(query : str,
 #     with ThreadPoolExecutor() as executor:
 #         # 只处理 .txt 文件
 #         txt_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.endswith(".txt")]
-        
+
 #         # 并行处理文件
 #         results = list(tqdm(executor.map(lambda file: process_file(file, id), txt_files), total=len(txt_files)))
 
 #         # 过滤掉 None 结果
 #         dict_list = [res for res in results if res is not None]
-        
+
 #     return dict_list
 
 def read_txt_files_as_dict(folder_path):
@@ -306,7 +383,7 @@ def read_txt_files_as_dict(folder_path):
     for filename in tqdm(os.listdir(folder_path)):
         if filename.endswith(".txt"):  # 确保文件是 .txt 类型
             file_path = os.path.join(folder_path, filename)
-            
+
             # 打开并读取每个 .txt 文件的内容
             with open(file_path, 'r') as file:
                 file_content = file.read()
@@ -316,13 +393,15 @@ def read_txt_files_as_dict(folder_path):
                     file_dict={}
                     file_dict['title']=file_dict_old['title']
                     file_dict['abstract']=file_dict_old['abstract']
+                    file_dict['year']=file_dict_old['year']
+                    file_dict['citation']=file_dict_old['citation']
                     file_dict['id'] = id
                     file_dict['authors'] = None
                     file_dict['cite_papers'] = None
                 except json.JSONDecodeError:
                     print(f"文件 {filename} 的内容不是有效的JSON格式，跳过该文件。")
                     continue
-                
+
                 # 将字典添加到列表
                 dict_list.append(file_dict)
                 id = id + 1
@@ -330,7 +409,7 @@ def read_txt_files_as_dict(folder_path):
 
 def extract_between_json_tags(text, num=None):
     json_blocks = re.findall(r'```json(.*?)```', text, re.DOTALL)
-    
+
     if not json_blocks:
         start_tag = '```json'
         end_tag = '```'
@@ -343,12 +422,12 @@ def extract_between_json_tags(text, num=None):
         else:
             combined_json = ''.join(block.strip() for block in json_blocks[:num])
         return combined_json
-    
+
 
 def extract_metrics(text, split_keywords):
     # 存储每个指标及其数值
     metrics = {}
-    
+
     for keyword in split_keywords:
         # 使用关键词进行分割
         parts = text.split(keyword)
@@ -362,7 +441,7 @@ def extract_metrics(text, split_keywords):
                 metrics[keyword.strip('"')] = None
         else:
             metrics[keyword.strip('"')] = None
-    
+
     return metrics
 
 def strip_non_letters(text):
@@ -431,10 +510,10 @@ def count_team(team_list: list[dict], over_state: int):
 def top_three_indices(lst):
     # 使用enumerate获取元素及其索引，并根据元素值进行排序
     sorted_indices = sorted(enumerate(lst), key=lambda x: x[1], reverse=True)
-    
+
     # 取出前三大的元素的索引
     top_three = [index for index, value in sorted_indices[:3]]
-    
+
     return top_three
 
 def extract_first_number(s):
@@ -448,8 +527,8 @@ def extract_first_number(s):
 def most_frequent_element(arr):
     # 使用 Counter 计算每个元素的出现次数
     count = Counter(arr)
-    
+
     # 返回出现次数最多的元素
     most_common_element = count.most_common(1)[0][0]
-    
+
     return most_common_element

@@ -36,7 +36,7 @@ class Team:
         current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.info_file = f"{info_dir}/{current_time}_{self.team_name}_dialogue.json"
         self.log_file = f"{log_dir}/{current_time}_{self.team_name}_dialogue.log"
-        os.makedirs("logs", exist_ok=True)
+        # os.makedirs("logs", exist_ok=True)
 
         # Check if log file exists and delete it
         if os.path.exists(self.log_file):

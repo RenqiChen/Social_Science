@@ -1,28 +1,33 @@
 import sys
-
 import torch.nn.functional
+import os
+import numpy as np
+import json
+import re
+import random
+import ollama
+from functools import partial
+import faiss
 
 sys.path.append('../agentscope-main/src')
-import os
 import agentscope
 from agentscope.rag import KnowledgeBank
 from agentscope.agents import SciAgent
-import numpy as np
-import json
-from prompt import Prompts
-import re
-import random
 from agentscope.memory import TemporaryMemory
-import ollama
+from agentscope.message import Msg
+from agentscope.msghub import msghub
+from agentscope.pipelines.functional import sequentialpipeline
 
-from functools import partial
-from scientist_utils import (
+from sci_team.SciTeam import Team
+from utils.prompt import Prompts
+from utils.scientist_utils import (
     extract_scientist_names,
     team_description,
     n2s,
     convert_you_to_other,
     team_description_detail,
     format_msg,
+    formated_msg2str,
     read_txt_files_as_dict,
     extract_between_json_tags,
     extract_metrics,
@@ -34,13 +39,6 @@ from scientist_utils import (
     extract_first_number,
     most_frequent_element
 )
-from agentscope.message import Msg
-from agentscope.msghub import msghub
-from agentscope.pipelines.functional import sequentialpipeline
-
-import faiss
-
-from sci_team import Team
 
 class Platform:
     r"""Platform."""
@@ -481,7 +479,7 @@ class Platform:
             topic_prompt = format_msg(
                 # answer,
                 # topic_prompt
-                Msg(name="user", role="user", content=Prompts.to_ask_topic.replace("[history_prompt]",history_prompt))
+                Msg(name="user", role="user", content=Prompts.to_ask_topic.replace("[history_prompt]", formated_msg2str(history_prompt)))
             )
             topic = self.id2agent[team.teammate[0]].prompt_reply(topic_prompt, add_memory = False)
             team.log_dialogue(team.teammate[0],topic.content)
