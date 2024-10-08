@@ -53,7 +53,7 @@ Our code support different collaboration settings. The commonly used arguments:
 
 ### Results
 
-- `{info_dir}/{current_time}_{self.team_name}_dialogue.json` saves the team information, where `info_dir` denotes the storage path, `current_time` denotes the start running time, and `self.team_name` is the name of the team.
+- `{info_dir}/{current_time}_{self.team_name}_dialogue.json` saves the team information: **all team members, selected topic, generated idea and abstract**, where `info_dir` denotes the storage path, `current_time` denotes the start running time, and `self.team_name` is the name of the team.
 
 - `{log_dir}/{current_time}_{self.team_name}_dialogue.log` saves the log record of the team, where `log_dir` denotes the storage path.
 
