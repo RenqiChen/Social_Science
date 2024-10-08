@@ -112,7 +112,7 @@ class Platform:
         # self.adjacency_matrix = np.loadtxt(
         #     '{}/{}-hop_adj_matrix.txt'.format(self.adjacency_matrix_dir, self.degree_int2word[hop_num-1]), dtype=int)
         self.adjacency_matrix = np.loadtxt(
-            '{}/adj_matrix.txt'.format(self.adjacency_matrix_dir), dtype=int)
+            '{}/adjacency.txt'.format(self.adjacency_matrix_dir), dtype=int)
 
         # check if agent_num is valid
         if self.agent_num is None:
@@ -177,7 +177,7 @@ class Platform:
         )
         return agent
 
-    def init_agent(self, agent_id, agent_model_config_name, adjacency_matrix, information_path):
+    def init_agent(self, agent_id, agent_model_config_name, information_path):
         # load author info
         with open(information_path, 'r') as file:
             prompt = file.read()
@@ -237,39 +237,26 @@ class Platform:
                 team_list[agent_index][0].state=2
                 continue
 
-            team_candidate = []
             # use prompts to select scientists
-            hint = self.HostMsg(content=Prompts.to_scientist_select)
-            team_list[agent_index][0].log_dialogue('user',hint.content)
-            team_candidate = extract_scientist_names(scientists[agent_index].reply(hint, use_memory = False).content)
-            team_candidate_temp = []
-            if len(team_candidate)<6:
-                for scientist in team_candidate:
-                    team_candidate_temp.append(scientist)
-                    name = int(scientist[9:])
-                    for i in range(len(self.adjacency_matrix)):
-                        if (self.adjacency_matrix[name,i]+1)*random.random() > 1 and i!=agent_index:
-                            team_candidate_temp.append(f"Scientist{i}")
-            else:
-                team_candidate_temp = team_candidate
-            # show all team member candidate
-            print(team_candidate_temp)
-            team_candidate_after = []
-            if len(team_candidate_temp) > 6:
-                for i in range(len(team_candidate_temp)):
-                    if random.random() > 0.2:
-                        team_candidate_after.append(team_candidate_temp[i])
-            else:
-                team_candidate_after = team_candidate_temp
-            team_candidate_after = list(set(team_candidate_after))
-            random.shuffle(team_candidate_after)
-            team_candidate_after = team_candidate_after[:self.max_teammember]
-            print(team_candidate_after)
-            team_list[agent_index][0].log_dialogue(scientists[agent_index].name,','.join(team_candidate_after))
+            scientist = scientists[agent_index].name
+            name = int(scientist[9:])
+
+            arr = self.adjacency_matrix[name,:]
+            arr[agent_index] = 0
+            probabilities = arr / np.sum(arr)
+
+            selected_indices = np.random.choice(len(arr), size=self.max_teammember, p=probabilities, replace=False)
+
+            team_candidate = []
+            for i in range(len(selected_indices)):
+                team_candidate.append(f"Scientist{selected_indices[i]}")
+
+            print(team_candidate)
+            team_list[agent_index][0].log_dialogue(scientists[agent_index].name,','.join(team_candidate))
             is_contained = False
             for agent_list in team_list:
                 for sublist in agent_list:
-                    if set(sublist.teammate) == set(team_candidate_after) and sublist.state != self.over_state:
+                    if set(sublist.teammate) == set(team_candidate) and sublist.state != self.over_state:
                         is_contained = True
                         break
                 if is_contained == True:
@@ -277,7 +264,7 @@ class Platform:
             if is_contained == True:
                 continue
             # ask each scientist to decide whether to join
-            agent_candidate = self.id_to_agent(team_candidate_after)
+            agent_candidate = self.id_to_agent(team_candidate)
             # create new team
             team_index = []
             team_index.append(scientists[agent_index].name)
