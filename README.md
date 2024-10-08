@@ -26,6 +26,9 @@ pip install -r requirements.txt.
 
 Our prepocessed dataset is publicly available at https://drive.google.com/drive/folders/1ZwWMBQ5oK-l4VuzMa60GbMND0g2EIxIu?usp=sharing.
 
+- Past paper database is put in the `Papers/papers.tar.gz`, the corresponding embedding database is put in the `Embeddings/faiss_index.index`.
+- Contemporary paper database is put in the `Papers/papers_future.tar.gz`, the corresponding embedding database is put in the `Embeddings/faiss_index_future.index`.
+
 Then, update the training command:
 
 ```bash
