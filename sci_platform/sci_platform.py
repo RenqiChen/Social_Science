@@ -898,6 +898,8 @@ class Platform:
             6: 'begin generate review'
         }
         if value>self.begin_state and value<self.over_state:
+            if value == 7:
+                return None
             print(f'Epoch{epoch}-------------------{log_dict[value]}')
         return action_dict.get(value, None)
 
@@ -923,5 +925,6 @@ class Platform:
                         if self.team_pool[leader_index][team_index].state == 7:
                             self.team_pool[leader_index][team_index].save_team_info()
                         print(f'Epoch{epoch}-------------------current action finished')
-        output_dir = "/home/bingxing2/ailab/scxlab0066/SocialScience/database/database.db"
-        save2database(self.paper_dicts, output_dir)
+            print(f'Epoch{epoch}-------------------begin select authors')
+            self.team_pool = self.select_coauthors()
+            print(f'Epoch{epoch}-------------------current action finished')
