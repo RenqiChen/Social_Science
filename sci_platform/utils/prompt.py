@@ -2,7 +2,6 @@
 """Used to record prompts, will be replaced by configuration"""
 
 class Prompts:
-    """Prompts for werewolf game"""
     
     role = "You are the team leader of a group of scientists and you need to guide your team members in generating an innovative idea and writing it into an abstracts."
 
