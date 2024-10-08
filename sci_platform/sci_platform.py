@@ -922,5 +922,8 @@ class Platform:
                         if self.team_pool[agent_index][team_index].state == 7:
                             self.team_pool[agent_index][team_index].save_team_info()
                         print(f'Epoch{epoch}-------------------current action finished')
+            print(f'Epoch{epoch}-------------------begin select authors')
+            self.team_pool = self.select_coauthors()
+            print(f'Epoch{epoch}-------------------current action finished')
         output_dir = "/home/bingxing2/ailab/scxlab0066/SocialScience/database/database.db"
         save2database(self.paper_dicts, output_dir)
