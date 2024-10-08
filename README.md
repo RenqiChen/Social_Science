@@ -10,7 +10,7 @@ This repository contains the code for our paper `Two Heads Are Better Than One: 
 
 - The simulation results align with the important findings in Science of Science, such as fresh teams tend to create more innovative research, showcasing the potential of VirSci as a powerful tool for future research in this field.
 
-Our project website is [https://renqichen.github.io/Social_Science/](https://renqichen.github.io/Social_Science/).
+Our project website is [Website](https://renqichen.github.io/Social_Science/).
 
 ## 💡 Run
 ### Environment
