@@ -156,7 +156,9 @@ class Prompts:
     Note that you can only select one idea. This JSON will be automatically parsed, so ensure the format is precise.
     """
 
-    prompt_abstract = """Based on the following research idea, generate a concise and informative abstract for a scientific paper by integrating your own knowledge and 
+    prompt_abstract = """
+    You are an ambitious scientist who is looking to write an abstract for your team.
+    Based on the following research idea, generate a concise and informative abstract for a scientific paper by integrating your own knowledge and 
     insights with the information provided.""" 
 
     prompt_abstract_requirement = """The abstract should cover the following aspects:
@@ -171,17 +173,22 @@ class Prompts:
     """
 
     prompt_abstract_response = """The response format should be:
-    ```json
-    {
+
+    ```json{
+
     Title: <TITLE>
 
     Abstract: <ABSTRACT>
-    }
-    ```
+
+    } ```
+
+    In <TITLE>, write the title for the abstract. 
+    In <ABSTRACT>, write the content of the abstract.
     This JSON will be automatically parsed, so ensure the format is precise.
     """
 
     prompt_abstract_judgement = """
+    You are an ambitious scientist who is looking to write an abstract for your team.
     Evaluate the following scientific paper abstract based on the following criteria:
 
     1. **Clarity**: Is the abstract clear and easy to understand? 
@@ -239,19 +246,22 @@ class Prompts:
 
     Abstract: <ABSTRACT>
     ```
+    In <TITLE>, write the title for the abstract. 
+    In <ABSTRACT>, write the content of the abstract.
     This JSON will be automatically parsed, so ensure the format is precise.
     """
 
     prompt_abstract_check = """
+    You are an ambitious scientist who is looking to write an abstract for your team.
     Please compare the following written abstract with the five provided abstracts:
 
-    - Written Abstract: [Insert your abstract here]
+    Written Abstract: [Insert your abstract here]
 
-    Provided Abstracts:
-    [Insert ref abstract here]
+    Provided Abstracts: [Insert ref abstract here]
 
-    For each pair (Written Abstract vs A, Written Abstract vs B, etc.), calculate a similarity score between 0 and 100, where 0 means no overlap and 100 means identical content. 
-    The score should be based on content, structure, and phrasing. Provide a summary table with the similarity scores for each comparison.
+    For each pair (Written Abstract vs A, Written Abstract vs B, etc.), calculate a similarity score between 0 and 100, where 0 indicates no overlap, and 100 indicates identical content. 
+    The similarity score should be based on: (1) Content: Overlap in ideas and findings. (2) Structure: Similarity in organization and flow. (3) Phrasing: Use of similar language and terminology. 
+    Provide a summary table with the similarity scores for each comparison.
     """
 
     prompt_response_check = """
@@ -264,10 +274,7 @@ class Prompts:
         "Written Abstract vs B": [Similarity Score],
         "Written Abstract vs C": [Similarity Score],
         "Written Abstract vs D": [Similarity Score],
-        "Written Abstract vs E": [Similarity Score],
-        "Written Abstract vs F": [Similarity Score],
         ...
-        "Written Abstract vs H": [Similarity Score]
     },
     "high_overlap_pairs": [
         {
@@ -278,6 +285,7 @@ class Prompts:
     ]
     }
     ```
+    This JSON will be automatically parsed, so ensure the format is precise.
     """
 
     prompt_review_system = """
