@@ -24,16 +24,7 @@ pip install -r requirements.txt.
 
 ### Setup
 
-```bash
- --dataset ruozhiba
-```
-
-To use Crop data for fine-tuning models, download the Crop datasets to the './train/data' folder and revise the file 'dataset_info.json' file by adding the following annotation to the config file:
-```json
-  "crop_dataset": {
-    "file_name": "crop dataset.json"
-  }
-```
+Our prepocessed dataset is publicly available at https://drive.google.com/drive/folders/1ZwWMBQ5oK-l4VuzMa60GbMND0g2EIxIu?usp=sharing.
 
 Then, update the training command:
 
