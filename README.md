@@ -40,10 +40,15 @@ python sci_platform/run.py
 ```
 
 Our code support different collaboration settings. The commonly used arguments:
+
 `--runs`: how many times does the program run
+
 `--team_limit`: the max number of teams for a scientist
+
 `--max_discuss_iteration`: the max discussion iterations for a team in a step
+
 `--max_team_member`: the max team member of a team (including the leader)
+
 `--epochs`: the allowed time steps for one program run
 
 ## 🙏 Acknowledgements
