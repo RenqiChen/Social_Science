@@ -251,6 +251,7 @@ class Platform:
                 if team_list[agent_index][0].state==1:
                     team_list[agent_index][0].state=2
                 continue
+            scientists[agent_index].sys_prompt = scientists[agent_index].sys_prompt + Prompts.role
             hint = self.HostMsg(content=Prompts.ask_choice.format_map(
                 {
                     "Scientist_name": scientists[agent_index].name,
@@ -318,13 +319,14 @@ class Platform:
                     continue
                 hint = self.HostMsg(content=Prompts.to_scientist_choice.format_map({
                     "inviter_name": scientists[agent_index].name,
+                    "team_member": str(team_index),
                     "personal information" : convert_you_to_other(scientists[agent_index].sys_prompt)
                 }))
                 # set_parsers(agent, Prompts.scientist_invite_parser)
                 pattern = re.compile(r'action\s*1', re.IGNORECASE)
                 # action1 means a scientist accepts the invitance
                 x = agent.reply(hint, use_memory=False, use_RAG=False)
-                if pattern.search(x.content):
+                if pattern.search(extract_between_json_tags(x.content,num=1)):
                     team_index.append(agent.name)
                 team_list[agent_index][0].log_dialogue('user',hint.content)
                 team_list[agent_index][0].log_dialogue(agent.name,x.content)
@@ -510,14 +512,14 @@ class Platform:
                 last_turn_history.get_memory(recent_n=last_turn_history.size()),
             )
             topic_prompt = format_msg(
-                history_prompt,
-                answer,
+                # answer,
                 # topic_prompt
-                Msg(name="user", role="user", content=Prompts.to_ask_topic)
+                Msg(name="user", role="user", content=Prompts.to_ask_topic.replace("[history_prompt]",history_prompt))
             )
             topic = self.id2agent[team.teammate[0]].prompt_reply(topic_prompt, add_memory = False)
             team.log_dialogue(team.teammate[0],topic.content)
-            team.topic = topic.content
+            team.topic = extract_between_json_tags(topic.content,num=1)
+            team.topic = strip_non_letters(team.topic.split("Topic")[1])
 
             # update dialogue history
             dialogue_history.add(topic)

@@ -3,6 +3,8 @@
 
 class Prompts:
     """Prompts for werewolf game"""
+    
+    role = "You are the team leader of a group of scientists and you need to guide your team members in generating an innovative idea and writing it into an abstracts."
 
     ask_choice = (
         "{Scientist_name}, now you are at the team: {All_team}. Now you have two choices after considering your current teams: "
@@ -19,19 +21,26 @@ class Prompts:
 
 
     to_scientist_choice = (
-        "{inviter_name} invites you to join his team. His personal information is as follows:"
-        "{personal information}. Now you have two choices after considering his information: "
-        "Action 1: You choose to collaborate with {inviter_name}."
-        "Action 2: You choose to refuse the invitation from {inviter_name}."
-        "Please feel free to make your choice, even if your choice is to decline."
-        "Please select an action and describe your reasoning using the following format:"
-        "Selected Action: [Action 1 or Action 2]."
-        "Reasoning: [Explain why you chose this action, considering factors like the potential for quality, efficiency, and the challenges involved.]"
+        """{inviter_name} invites you to join his team. His personal information is as follows:
+        {personal information}. Current members of his team: {team_member}. Now you have two choices after considering these information: 
+        Action 1: You choose to collaborate with {inviter_name}.
+        Action 2: You choose to refuse the invitation from {inviter_name}.
+        Please feel free to make your choice, even if your choice is to decline.
+        Please select an action and describe your reasoning using the following format:
+
+        Thought: <THOUGHT> 
+
+        Action: ```json<JSON>```
+
+        In <THOUGHT>, Explain why you chose this action, considering factors like the potential for quality, efficiency, and 
+        the challenges involved.
+        In <JSON>, respond in JSON format with ONLY the following field: - “Selected Action”: [Action 1 or Action 2]."""
     )
 
-    to_start_topic_discussion = """Engage in a collaborative discussion by integrating your own knowledge and 
-    insights with the information provided to explore and identify potential research topics that 
-    align with our team's strengths and goals. Please focus more on the discussion of the topic rather than on self-introduction.
+    to_start_topic_discussion = """You are an ambitious scientist who is looking to propose a potential research topic for your team. 
+    Engage in a collaborative discussion by integrating your own knowledge and insights with the information provided to explore and identify potential research topics that align with our team's strengths and goals. 
+    The proposed topic should also be innovative and have the potential to make a significant impact in the current field. The summarizations of previous turns in team discussion and discussion in this turn are provided, 
+    which may assist you in proposing the research topic. Please focus more on the discussion of the topic rather than on self-introduction.
     """
     
     # To do
@@ -71,8 +80,26 @@ class Prompts:
                                  "Selected Action: [Action 1 or Action 2].
                                  "Reasoning: [Explain why you chose this action.]"""
 
-    to_ask_topic = "Please give me the topic you select using the following format: "\
-    "Selected Topics: Topic 1"
+    to_ask_topic = """You are an ambitious scientist who is looking to propose a potential research topic for your team.
+    Using the historical dialogue information provided, summarize a topic that will serve as the research direction for the team. 
+    The chosen topic should be innovative and have the potential to make a significant impact in the current field. 
+    The instructions for selecting the topic are as follows: 
+    1. Review the Historical Dialogue. Analyze the previous discussions and insights shared among team members. Identify recurring themes, key ideas, and any gaps in the current research landscape. 
+    2. Identify Trends and Innovations. Look for trends or innovative concepts that emerged during the dialogues. Consider how these could address existing challenges or open new avenues for exploration.
+    3. Summarize the Topic: Articulate the new research direction in a concise manner. Ensure that the topic reflects originality and addresses a specific problem or need within the field.
+    4. Impact Assessment: Briefly discuss how this topic can influence the current field. Consider its relevance, potential applications, and the value it adds to ongoing research efforts.
+
+    [history_prompt]
+
+    Please respond in the following format: 
+
+    Thought: <THOUGHT> 
+
+    Topic: ```json<JSON>```
+
+    In <THOUGHT>, explain why you select this topic following the instructions. 
+    In <JSON>, respond in JSON format with ONLY the following field: - “Selected Topic”: [Topic]. 
+    Be cautious and realistic on your ratings. This JSON will be automatically parsed, so ensure the format is precise. You only need to output one topic."""
 
     prompt_existing_idea = "Here is the idea that your team has already generated: '''{}'''\n"
 
