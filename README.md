@@ -10,7 +10,7 @@ This repository contains the code for our paper `Two Heads Are Better Than One: 
 
 - The simulation results align with the important findings in Science of Science, such as fresh teams tend to create more innovative research, showcasing the potential of VirSci as a powerful tool for future research in this field.
 
-Our project website is [https://renqichen.github.io/Social_Science/](https://renqichen.github.io/Social_Science/).
+Our project website is [Website](https://renqichen.github.io/Social_Science/).
 
 ## 💡 Run
 ### Environment
@@ -24,21 +24,32 @@ pip install -r requirements.txt.
 
 ### Setup
 
-Our prepocessed dataset is publicly available at https://drive.google.com/drive/folders/1ZwWMBQ5oK-l4VuzMa60GbMND0g2EIxIu?usp=sharing.
+The raw data is based on the [AMiner Computer Science Dataset](https://www.aminer.cn/aminernetwork).
 
-Then, update the training command:
+After preprocessing, the used data is publicly available at [Google Drive](https://drive.google.com/drive/folders/1ZwWMBQ5oK-l4VuzMa60GbMND0g2EIxIu?usp=sharing).
 
-```bash
---dataset ruozhiba, crop_dataset
-```
+- Past paper database is put in the `Papers/papers.tar.gz`, the corresponding embedding database is put in the `Embeddings/faiss_index.index`.
+- Contemporary paper database is put in the `Papers/papers_future.tar.gz`, the corresponding embedding database is put in the `Embeddings/faiss_index_future.index`.
+- Author knowledge bank is put in the `Authors/books.tar`.
+- Adjacency matrix is put in the `adjacency.txt`.
 
 ### Usage
 
-Take closed-book QA prompt as an example:
+```
+python sci_platform/run.py
+```
 
-```
-python run.py
-```
+Our code support different collaboration settings. The commonly used arguments:
+
+`--runs`: how many times does the program run
+
+`--team_limit`: the max number of teams for a scientist
+
+`--max_discuss_iteration`: the max discussion iterations for a team in a step
+
+`--max_team_member`: the max team member of a team (including the leader)
+
+`--epochs`: the allowed time steps for one program run (default value is 6, which is enough for a scientist to finish all steps)
 
 ## 🙏 Acknowledgements
 
