@@ -51,6 +51,12 @@ Our code support different collaboration settings. The commonly used arguments:
 
 `--epochs`: the allowed time steps for one program run (default value is 6, which is enough for a scientist to finish all steps)
 
+### Results
+
+`{info_dir}/{current_time}_{self.team_name}_dialogue.json` saves the team information, where `info_dir` denotes the storage path, `current_time` denotes the start running time, and `self.team_name` is the name of the team.
+
+`{log_dir}/{current_time}_{self.team_name}_dialogue.log` saves the log record of the team, where `log_dir` denotes the storage path.
+
 ## 🙏 Acknowledgements
 
 This project is supported by Shanghai Artificial Intelligence Laboratory.
