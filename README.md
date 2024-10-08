@@ -15,7 +15,7 @@ Our project website is [https://renqichen.github.io/Social_Science/](https://ren
 ## 💡 Run
 ### Environment
 
-We tested our codebase with PyTorch 1.13.1 and CUDA 11.6. Please install the corresponding versions of PyTorch and CUDA based on your computational resources.
+We tested our codebase with PyTorch 2.3.1 and CUDA 12.1. Please install the corresponding versions of PyTorch and CUDA based on your computational resources.
 
 To install the required packages, run:
 ```bash
