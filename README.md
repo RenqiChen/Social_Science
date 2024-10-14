@@ -16,8 +16,8 @@ This repository contains the code for our paper `Two Heads Are Better Than One: 
 
 Our project website is [Website](https://renqichen.github.io/Social_Science/).
 
-## Updates 
-📆 [**2024-10**]
+## 📆 Updates 
+[**2024-10**]
 1. We propose the VirSci, a multi-agent system has the potential to improve scientific idea generation.
 2. Watch demo video for our project at <a href="https://www.youtube.com/watch?v=oMSEAeGfTIk" target="_blank">YouTube</a>.
 3. Full paper with Appendix is available on <a href="https://arxiv.org/abs/2306.06687" target="_blank">Arxiv</a>.
