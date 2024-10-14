@@ -1,3 +1,7 @@
+<p align="center">
+  <img src='https://raw.githubusercontent.com/camel-ai/camel/master/misc/primary_logo.png' width=800>
+</p>
+
 # [Submitted to ICLR2025] <br> Two Heads Are Better Than One: A Multi-Agent System Has the Potential to Improve Scientific Idea Generation.
 
 ## 👀 Introduction
