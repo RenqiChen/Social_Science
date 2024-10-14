@@ -19,7 +19,7 @@ Our project website is [Website](https://renqichen.github.io/Social_Science/).
 ## Updates 
 📆 [**2024-10**]
 1. We propose the VirSci, a multi-agent system has the potential to improve scientific idea generation.
-2. Watch demo video for LAMM at <a href="https://www.youtube.com/watch?v=M7XlIe8hhPk" target="_blank">YouTube</a> or <a href="https://www.bilibili.com/video/BV1kN411D7kt/" target="_blank">Bilibili</a>!
+2. Watch demo video for our project at <a href="https://www.youtube.com/watch?v=oMSEAeGfTIk" target="_blank">YouTube</a> or <a href="https://www.youtube.com/watch?v=oMSEAeGfTIk" target="_blank">Bilibili</a>!
 3. Full paper with Appendix is available on <a href="https://arxiv.org/abs/2306.06687" target="_blank">Arxiv</a>.
 4. LAMM dataset released on <a href="https://huggingface.co/datasets/openlamm/LAMM_Dataset" target="_blank">Huggingface</a> & <a href="https://opendatalab.com/LAMM/LAMM" target="_blank">OpenDataLab</a> for Research community!',
 5. VirSci code is available for Research community!
