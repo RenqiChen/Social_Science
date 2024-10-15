@@ -311,7 +311,7 @@ class Team:
                 cite_paper = list(set(cite_paper).union(cite_paper_new))
 
                 # find the metric
-                split_keywords = ['Interestingness', 'Feasibility', 'Novelty']
+                split_keywords = ['Clarity', 'Feasibility', 'Novelty']
                 metrics = extract_metrics(old_idea, split_keywords)
                 if best_idea != None:
                     if old_idea == best_idea:
