@@ -70,20 +70,5 @@ if __name__ == '__main__':
             info_dir = args.save_dir
         )
         platform_example.running(args.epochs)
-        # try:
-        #     platform_example = Platform(
-        #         team_limit = args.team_limit,
-        #         group_max_discuss_iteration = args.max_discuss_iteration,
-        #         max_teammember = args.max_team_member-1,
-        #         log_dir = args.log_dir,
-        #         info_dir = args.save_dir
-        #     )
-        #     platform_example.running(args.epochs)
-        # except:
-        #     pass
-        break
         if len(os.listdir(args.save_dir)) >= args.team_limit*args.runs:
             end = True
-
-# paper_folder_path = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers"  # 替换为实际的文件夹路径
-# paper_dicts = read_txt_files_as_dict(paper_folder_path)
