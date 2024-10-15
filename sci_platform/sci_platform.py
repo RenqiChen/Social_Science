@@ -332,13 +332,13 @@ class Platform:
         print(f'Epoch{-1}-------------------initialize team')
         self.team_pool = self.select_coauthors()
         for epoch in range(epochs):
-            # state 6 is an over
-            # 1. generate paper review for state 6
-            # 2. generate paper abstract for state 5
-            # 3. generate idea for state 4
-            # 4. check novelty for state 3
-            # 5. select topics for state 2
-            # 6. select coauthors for state 1
+            # state 7 is an over
+            # 1. select coauthors for state 1
+            # 2. select topics for state 2
+            # 3. generate idea for state 3
+            # 4. check novelty for state 4
+            # 5. generate paper abstract for state 5
+            # 6. generate paper review for state 6
 
             for leader_index in range(len(self.team_pool)):
                 for team_index in range(len(self.team_pool[leader_index])):
