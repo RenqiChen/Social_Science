@@ -44,6 +44,22 @@ After preprocessing, the used data is publicly available at [Google Drive](https
 - Author knowledge bank is put in the `Authors/books.tar`.
 - Adjacency matrix is put in the `adjacency.txt`.
 
+### Code
+
+Here we explain the roles of several critial files.
+
+`agentscope-main/src/agentscope/agents/sci_agent.py` defines the customized scientist agent in this project.
+
+`sci_platform/run.py` is the main execution file.
+
+`sci_platform/sci_platform.py` defines the platform for the initialization of our multi-agent system.
+
+`sci_platform/utils/prompt.py` contains all the prompts used.
+
+`sci_platform/utils/scientist_utils.py` contains all the common functions used.
+
+`sci_platform/sci_team/SciTeam.py` defines the execution mechanism of each scientist team.
+
 ### Usage
 
 ```
