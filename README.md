@@ -87,6 +87,14 @@ This repository is licensed under the [Apache-2.0 License](LICENSE).
 If you find this code useful, please consider citing our work:
 
 ```bibtex
-Comming soon!
+@misc{su2024headsbetteronemultiagent,
+      title={Two Heads Are Better Than One: A Multi-Agent System Has the Potential to Improve Scientific Idea Generation}, 
+      author={Haoyang Su and Renqi Chen and Shixiang Tang and Xinzhe Zheng and Jingzhe Li and Zhenfei Yin and Wanli Ouyang and Nanqing Dong},
+      year={2024},
+      eprint={2410.09403},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2410.09403}, 
+}
 ```
 
