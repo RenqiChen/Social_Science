@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This example shows how to build an agent with RAG
-with LlamaIndex.
-
-Notice, this is a Beta version of RAG agent.
+The customized scientist agent in this project
 """
 
 from typing import Any, Optional, Union, Sequence
