@@ -140,12 +140,12 @@ class Platform:
         self.HostMsg = partial(Msg, name="user", role="user", echo=True)
 
         # paper embedding list
-        cpu_index = faiss.read_index("/home/bingxing2/ailab/group/ai4agr/crq/SciSci/faiss_index.index")  # 加载索引
-        res = faiss.StandardGpuResources()  # 为 GPU 资源分配
-        self.gpu_index = faiss.index_cpu_to_gpu(res, 0, cpu_index)  # 将索引移到 GPU
+        cpu_index = faiss.read_index("/home/bingxing2/ailab/group/ai4agr/crq/SciSci/faiss_index.index")
+        res = faiss.StandardGpuResources()  
+        self.gpu_index = faiss.index_cpu_to_gpu(res, 0, cpu_index)  
 
-        cpu_future_index = faiss.read_index("/home/bingxing2/ailab/group/ai4agr/crq/SciSci/faiss_index_future.index")  # 加载索引
-        future_res = faiss.StandardGpuResources()  # 为 GPU 资源分配
+        cpu_future_index = faiss.read_index("/home/bingxing2/ailab/group/ai4agr/crq/SciSci/faiss_index_future.index")  
+        future_res = faiss.StandardGpuResources()  
         self.gpu_future_index = faiss.index_cpu_to_gpu(future_res, 0, cpu_future_index)  # 将索引移到 GPU
 
         self.paper_dicts = read_txt_files_as_dict(self.paper_folder_path)
