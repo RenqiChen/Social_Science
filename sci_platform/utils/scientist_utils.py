@@ -22,32 +22,6 @@ from agentscope.message import Msg
 
 from utils.prompt import Prompts
 
-def check_winning(alive_agents: list, wolf_agents: list, host: str) -> bool:
-    """check which group wins"""
-    if len(wolf_agents) * 2 >= len(alive_agents):
-        msg = Msg(host, Prompts.to_all_wolf_win, role="assistant")
-        logger.chat(msg)
-        return True
-    if alive_agents and not wolf_agents:
-        msg = Msg(host, Prompts.to_all_village_win, role="assistant")
-        logger.chat(msg)
-        return True
-    return False
-
-
-def update_alive_players(
-        survivors: Sequence[AgentBase],
-        wolves: Sequence[AgentBase],
-        dead_names: Union[str, list[str]],
-) -> tuple[list, list]:
-    """update the list of alive agents"""
-    if not isinstance(dead_names, list):
-        dead_names = [dead_names]
-    return [_ for _ in survivors if _.name not in dead_names], [
-        _ for _ in wolves if _.name not in dead_names
-    ]
-
-
 def majority_vote(votes: list) -> Any:
     """majority_vote function"""
     votes_valid = [item for item in votes if item != "Abstain"]
