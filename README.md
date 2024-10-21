@@ -2,7 +2,7 @@
   <img src='logo.png' width=800>
 </p>
 
-# [Submitted to ICLR2025] <br> Two Heads Are Better Than One: A Multi-Agent System Has the Potential to Improve Scientific Idea Generation.
+# Two Heads Are Better Than One: A Multi-Agent System Has the Potential to Improve Scientific Idea Generation.
 
 ## 👀 Introduction
 
