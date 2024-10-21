@@ -528,8 +528,8 @@ class Team:
             word = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T']
             split_keywords = []
             for paper_id in range(len(related_papers)):
-                cite_abstract = cite_abstract+str(paper_id+1)+". Abstract {}: ".format(word[paper_id])+"Title: "+related_papers[paper_id]['title']+"\n"+"Abstract: "+related_papers[paper_id]['abstract']+"\n"
-                split_keywords.append('Written Abstract vs {}'.format(word[paper_id]))
+                cite_abstract = cite_abstract + str(paper_id-int(platform.cite_number/2)+1) + ". Abstract {}: ".format(word[paper_id-int(platform.cite_number/2)]) + "Title: " + related_papers[paper_id]['title'] + "\n" + "Abstract: " + related_papers[paper_id]['abstract'] + "\n"
+                split_keywords.append('Written Abstract vs {}'.format(word[paper_id-int(platform.cite_number/2)]))
             abstract_check_prompt = abstract_check_prompt.replace("[Insert ref abstract here]", cite_abstract)
             abstract_check_prompt = abstract_check_prompt+"\n"+Prompts.prompt_response_check
             agent_prompt = format_msg(
