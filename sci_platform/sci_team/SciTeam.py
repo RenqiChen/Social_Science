@@ -503,7 +503,7 @@ class Team:
         abs = []
         our_abs = strip_non_letters(old_abstract.split('Abstract')[1])
         abs.append(ollama.embeddings(model="mxbai-embed-large", prompt=our_abs)['embedding'])
-        for paper_id in range(len(related_papers)):
+        for paper_id in range(int(platform.cite_number/2), len(related_papers)):
             related_astract = related_papers[paper_id]['abstract']
             abs.append(ollama.embeddings(model="mxbai-embed-large", prompt=related_astract)['embedding'])
 
