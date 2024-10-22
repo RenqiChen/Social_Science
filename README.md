@@ -32,8 +32,8 @@ To install the required packages, run:
 ```bash
 pip install -r requirements.txt.
 ```
-
-😀Please note that if you encounter any errors while setting up the environment, do not panic, as our environment is deployed on the ARM architecture, which may cause some package versions to be unavailable. The most important package to install is agentscope, which can be easily installed using the command `pip install agentscope`.
+**Note**
+If you encounter any errors while setting up the environment, do not panic, as our environment is deployed on the ARM architecture, which may cause some package versions to be unavailable. The most important package to install is agentscope, which can be easily installed using the command `pip install agentscope`😀.
 
 ### Setup
 
