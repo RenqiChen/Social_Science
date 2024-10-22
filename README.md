@@ -66,7 +66,7 @@ Here we explain the roles of several critial files.
 
 ### Usage
 
-In our experiments, we use `ollama` to deploy the llama3.1 model. The details of deployment could refer to [URL](https://github.com/modelscope/agentscope/blob/main/scripts/README.md#ollama).
+In our experiments, we use `ollama` to deploy the `llama3.1-8b` and `llama3.1-70b` model. The details of deployment could refer to [URL](https://github.com/modelscope/agentscope/blob/main/scripts/README.md#ollama).
 
 After pull llama3.1 model, open the ollama server and run our codes:
 
