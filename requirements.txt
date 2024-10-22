@@ -93,8 +93,6 @@ importlib-resources=6.4.4=pypi_0
 inputimeout=1.0.4=pypi_0
 interegular=0.3.3=pypi_0
 itsdangerous=2.2.0=pypi_0
-jax=0.4.28=pypi_0
-jaxlib=0.4.28+cuda12.cudnn89=pypi_0
 jinja2=3.1.4=pypi_0
 jiter=0.5.0=pypi_0
 joblib=1.4.2=pypi_0
