@@ -66,8 +66,16 @@ Here we explain the roles of several critial files.
 
 ### Usage
 
+First,
+
 ```
-python sci_platform/run.py
+cd sci_platform/
+```
+
+Then,
+
+```
+python run.py
 ```
 
 Our code support different collaboration settings. The commonly used arguments:
