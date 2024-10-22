@@ -59,7 +59,6 @@ fastapi=0.112.0=pypi_0
 feedparser=6.0.11=pypi_0
 filelock=3.15.4=pypi_0
 flake8=7.1.1=pypi_0
-flash-attn=2.5.7=pypi_0
 flask=3.0.0=pypi_0
 flask-cors=4.0.0=pypi_0
 flask-socketio=5.3.6=pypi_0
