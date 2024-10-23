@@ -48,6 +48,10 @@ After preprocessing, the used data is publicly available at [Google Drive](https
 - Author knowledge bank is put in the `Authors/books.tar`.
 - Adjacency matrix is put in the `adjacency.txt`.
 
+#### Note
+
+Please replace all paths in `sci_platform/sci_platform.py` with your own settings after download the data.
+
 ### Code
 
 Here we explain the roles of several critial files.
