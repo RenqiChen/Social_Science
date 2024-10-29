@@ -211,7 +211,7 @@ class Platform:
             x = scientists[agent_index].reply(hint)
             team_list[agent_index][0].log_dialogue('user',hint.content)
             team_list[agent_index][0].log_dialogue(scientists[agent_index].name,x.content)
-            match = re.search(r'action\s*(\d+)', x.content, re.IGNORECASE)
+            match = re.search(r'action\s*(\d+)', extract_between_json_tags(x.content,num=1), re.IGNORECASE)
 
             # when action2, the agent choose to act independently
             if int(match.group(1))==2:

@@ -6,12 +6,18 @@ class Prompts:
     role = "You are the team leader of a group of scientists and you need to guide your team members in generating an innovative idea and writing it into an abstracts."
 
     ask_choice = (
-        "{Scientist_name}, now you are at the team: {All_team}. Now you have two choices after considering your current teams: "
-        "Action 1: You choose to collaborate with some partners, sharing insights, dividing tasks, and combining your expertise to produce a comprehensive paper."
-        "Action 2: You decide to write the paper independently, relying on your own research and analysis to complete the work."
-        "Please select an action and describe your reasoning using the following format:"
-        "Selected Action: [Action 1 or Action 2]."
-        "Reasoning: [Explain why you chose this action, considering factors like the potential for quality, efficiency, and the challenges involved.]"
+        """{Scientist_name}, now you are at the team: {All_team}. Now you have two choices after considering your current teams: 
+        Action 1: You choose to collaborate with some partners, sharing insights, dividing tasks, and combining your expertise to produce a comprehensive paper.
+        Action 2: You decide to write the paper independently, relying on your own research and analysis to complete the work.
+        Please select an action and describe your reasoning using the following format:
+        
+        Thought: <THOUGHT> 
+
+        Action: ```json<JSON>```
+
+        In <THOUGHT>, Explain why you chose this action, considering factors like the potential for quality, efficiency, and 
+        the challenges involved.
+        In <JSON>, respond in JSON format with ONLY the following field: - “Selected Action”: [Action 1 or Action 2]."""
     )
 
     to_scientist_select = "Who will you want to select as your partners?"
