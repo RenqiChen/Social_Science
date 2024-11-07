@@ -107,6 +107,8 @@ This project is supported by Shanghai Artificial Intelligence Laboratory.
 
 The multi-agent framework in this work is based on the [AgentScope](https://github.com/modelscope/agentscope).
 
+The raw data is based on the [AMiner Computer Science Dataset](https://www.aminer.cn/aminernetwork).
+
 ## 📧 Contact
 
 If you have any questions, please  contact at [chenrenqi@pjlab.org.cn, suhaoyang@pjlab.org.cn].
