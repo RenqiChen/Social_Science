@@ -85,10 +85,6 @@ class Platform:
         # for quality, the team of one member will think more times
         self.think_times = max_teammember+1
 
-        # # author2paper file: dict{'authorID':[paperID1, paperID2, ...]}
-        # with open('{}/author2paper.json'.format(root_dir), 'r') as file:
-        #     self.author2paper = json.load(file)
-
         # load k-hop adjacency matrix
         self.degree_int2word = ['one', 'two', 'three', 'four', 'five']
         # self.adjacency_matrix = np.loadtxt(
@@ -101,10 +97,6 @@ class Platform:
             self.agent_num = len(self.adjacency_matrix)
         else:
             assert self.agent_num <= len(self.adjacency_matrix)
-
-        # load agentID2authorID file: dict{'agentID': 'authorID'}
-        with open('{}/agentID2authorID.json'.format(self.adjacency_matrix_dir), 'r') as file:
-            self.agentID2authorID = json.load(file)
 
         # init agentscope
         agentscope.init(model_configs=model_configuration)
