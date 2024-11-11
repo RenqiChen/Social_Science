@@ -35,7 +35,7 @@ pip install -r requirements.txt.
 
 #### Note
 
-If you encounter any errors while setting up the environment, do not panic, as our environment is deployed on the ARM architecture, which may cause some package versions to be unavailable. The most important thing is to install agentscope in editable mode, which can be easily installed using the command 😀:
+If you encounter any errors while setting up the environment, do not panic, as our environment is deployed on the ARM architecture, which may cause some package versions to be unavailable. The most important thing is to install agentscope in `editable mode` 😀, which can be easily installed using the command:
 
 ```
 cd agentscope-main
