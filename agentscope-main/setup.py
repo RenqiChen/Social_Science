@@ -112,13 +112,15 @@ online_requires = full_requires + [
     "gunicorn",
 ]
 
-with open("README.md", "r", encoding="UTF-8") as fh:
-    long_description = fh.read()
+# with open("README.md", "r", encoding="UTF-8") as fh:
+#     long_description = fh.read()
+
+long_description = "SysML team of Alibaba Tongyi Lab"
 
 setuptools.setup(
     name=NAME,
     version=VERSION,
-    author="SysML team of Alibaba Tongyi Lab ",
+    author="SysML team of Alibaba Tongyi Lab",
     author_email="gaodawei.gdw@alibaba-inc.com",
     description="AgentScope: A Flexible yet Robust Multi-Agent Platform.",
     long_description=long_description,
