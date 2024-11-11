@@ -128,7 +128,6 @@ llamaindex-py-client=0.1.19=pypi_0
 llvmlite=0.43.0=pypi_0
 lm-format-enforcer=0.10.3=pypi_0
 loguru=0.6.0=pypi_0
-mamba-ssm=1.1.4=pypi_0
 markdown=3.6=pypi_0
 markdown-it-py=3.0.0=pypi_0
 markupsafe=2.1.5=pypi_0
