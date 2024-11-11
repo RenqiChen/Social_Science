@@ -38,11 +38,7 @@ pip install -r requirements.txt.
 If you encounter any errors while setting up the environment, do not panic, as our environment is deployed on the ARM architecture, which may cause some package versions to be unavailable. The most important thing is to install agentscope in editable mode, which can be easily installed using the command 😀:
 
 ```
-# Pull the source code from GitHub
-git clone https://github.com/modelscope/agentscope.git
-
-# Install the package in editable mode
-cd agentscope
+cd agentscope-main
 pip install -e .
 ```
 
