@@ -30,7 +30,7 @@ We tested our codebase with PyTorch 2.3.1 and CUDA 12.1. Please install the corr
 
 To install the required packages, run:
 ```bash
-pip install -r requirements.txt.
+pip install -r requirements.txt
 ```
 
 #### Note
