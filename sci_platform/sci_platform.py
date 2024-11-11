@@ -85,9 +85,9 @@ class Platform:
         # for quality, the team of one member will think more times
         self.think_times = max_teammember+1
 
-        # author2paper file: dict{'authorID':[paperID1, paperID2, ...]}
-        with open('{}/author2paper.json'.format(root_dir), 'r') as file:
-            self.author2paper = json.load(file)
+        # # author2paper file: dict{'authorID':[paperID1, paperID2, ...]}
+        # with open('{}/author2paper.json'.format(root_dir), 'r') as file:
+        #     self.author2paper = json.load(file)
 
         # load k-hop adjacency matrix
         self.degree_int2word = ['one', 'two', 'three', 'four', 'five']
