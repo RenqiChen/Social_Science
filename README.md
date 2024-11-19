@@ -122,7 +122,7 @@ Welcome to join our discussion group on collective intelligence technology!
 
 | Wechat             |          
 |--------------------|
-| <img src="Group.jpg" width="100" height="100"> |
+| <img src="Group.jpg" width="200" height="200"> |
 
 
 ## ⚖ License
