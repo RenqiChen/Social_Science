@@ -118,7 +118,7 @@ The raw data is based on the [AMiner Computer Science Dataset](https://www.amine
 
 If you have any questions, please  contact at [chenrenqi@pjlab.org.cn, suhaoyang@pjlab.org.cn].
 
-Welcome to join our discussion group on swarm intelligence technology!
+Welcome to join our discussion group on collective intelligence technology!
 
 | Wechat             |          
 |--------------------|
