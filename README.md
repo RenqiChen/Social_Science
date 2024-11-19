@@ -118,6 +118,12 @@ The raw data is based on the [AMiner Computer Science Dataset](https://www.amine
 
 If you have any questions, please  contact at [chenrenqi@pjlab.org.cn, suhaoyang@pjlab.org.cn].
 
+Welcome to join our discussion group on swarm intelligence technology!
+
+<p align="center">
+  <img src='Group.jpg' width=800>
+</p>
+
 ## ⚖ License
 
 This repository is licensed under the [Apache-2.0 License](LICENSE).
