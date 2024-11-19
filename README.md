@@ -120,9 +120,10 @@ If you have any questions, please  contact at [chenrenqi@pjlab.org.cn, suhaoyang
 
 Welcome to join our discussion group on swarm intelligence technology!
 
-<p align="center">
-  <img src='Group.jpg' width=800>
-</p>
+| Wechat             |          
+|--------------------|
+| <img src="Group.png" width="100" height="100"> |
+
 
 ## ⚖ License
 
