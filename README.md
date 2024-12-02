@@ -120,6 +120,10 @@ If you have any questions, please  contact at [chenrenqi@pjlab.org.cn, suhaoyang
 
 Welcome to join our discussion group on collective intelligence technology!
 
+### Note
+
+If you find that the WeChat QR code has expired, please send us an email with your WeChat ID, and we will manually invite you to the group.
+
 | Wechat             |          
 |--------------------|
 | <img src="Group.jpg" width="200" height="200"> |
