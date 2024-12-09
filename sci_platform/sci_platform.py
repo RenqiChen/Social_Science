@@ -34,7 +34,7 @@ class Platform:
                  paper_folder_path: str = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers",
                  future_paper_folder_path: str = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers_future",
                  author_info_dir: str = 'authors',
-                 adjacency_matrix_dir: str = 'authors_degree_ge50_from_year2000to2010',
+                 adjacency_matrix_dir: str = 'Your folder path',
                  agent_model_config_name: str = 'ollama_llama3.1_8b',
                  review_model_config_name: str = 'ollama_llama3.1_70b',
                  knowledgeBank_config_dir: str = "./configs/knowledge_config.json",
