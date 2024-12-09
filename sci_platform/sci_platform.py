@@ -30,7 +30,6 @@ class Platform:
     def __init__(self,
                  model_configuration: str = './configs/model_configs.json',
                  agent_num: int = 1,
-                 root_dir: str = '/home/bingxing2/ailab/group/ai4agr/shy/s4s',
                  paper_folder_path: str = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers",
                  future_paper_folder_path: str = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers_future",
                  author_info_dir: str = 'authors',
@@ -56,8 +55,8 @@ class Platform:
         self.agent_num = agent_num
         self.paper_folder_path = paper_folder_path
         self.paper_future_folder_path = future_paper_folder_path
-        self.author_info_dir = os.path.join(root_dir, author_info_dir)
-        self.adjacency_matrix_dir = os.path.join(root_dir, adjacency_matrix_dir)
+        self.author_info_dir = author_info_dir
+        self.adjacency_matrix_dir = adjacency_matrix_dir
         self.group_max_discuss_iteration = group_max_discuss_iteration
         self.recent_n_team_mem_for_retrieve = recent_n_team_mem_for_retrieve
         # how many teams for one agent is allowed
