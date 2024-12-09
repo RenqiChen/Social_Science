@@ -32,7 +32,7 @@ class Platform:
                  agent_num: int = 1,
                  paper_folder_path: str = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers",
                  future_paper_folder_path: str = "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/papers_future",
-                 author_info_dir: str = 'authors',
+                 author_info_dir: str = '/home/bingxing2/ailab/group/ai4agr/crq/SciSci/books',
                  adjacency_matrix_dir: str = 'Your folder path',
                  agent_model_config_name: str = 'ollama_llama3.1_8b',
                  review_model_config_name: str = 'ollama_llama3.1_70b',
