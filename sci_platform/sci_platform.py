@@ -105,7 +105,7 @@ class Platform:
             self.knowledge_bank = self.init_knowledgeBank(knowledgeBank_config_dir)
 
         # init agent pool
-        self.agent_pool = [self.init_agent(str(agent_id), agent_model_config_name, '/home/bingxing2/ailab/group/ai4agr/crq/SciSci/books/author_{}.txt'.format(agent_id)) for agent_id in range(len(self.adjacency_matrix))]
+        self.agent_pool = [self.init_agent(str(agent_id), agent_model_config_name, '{}/author_{}.txt'.format(self.author_info_dir, agent_id)) for agent_id in range(len(self.adjacency_matrix))]
         self.reviewer_pool = [self.init_reviewer(str(agent_id), review_model_config_name) for agent_id in range(self.reviewer_num)]
         self.id2agent = {}
         for agent in self.agent_pool:
@@ -175,7 +175,7 @@ class Platform:
             knowledge_id="author_information",
             emb_model_name="ollama_embedding-mxbai-embed-large",
             data_dirs_and_types={
-                "/home/bingxing2/ailab/group/ai4agr/crq/SciSci/books": [".txt"],
+                self.author_info_dir: [".txt"],
             },
         )
         return knowledge_bank
