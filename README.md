@@ -50,7 +50,7 @@ After preprocessing, the used data is publicly available at [Google Drive](https
 
 - Past paper database is put in the `Papers/papers.tar.gz`, the corresponding embedding database is put in the `Embeddings/faiss_index.index`.
 - Contemporary paper database is put in the `Papers/papers_future.tar.gz`, the corresponding embedding database is put in the `Embeddings/faiss_index_future.index`.
-- Author knowledge bank is put in the `Authors/books.tar`.
+- Author knowledge bank is put in the `Authors/books.tar`, which is used in in `/home/bingxing2/ailab/group/ai4agr/crq/SciSci/books` of Line 13 in `sci_platform/configs/knowledge_config.json` and `sci_platform/sci_platform.py`.
 - Adjacency matrix is put in the `adjacency.txt`.
 
 #### Note
