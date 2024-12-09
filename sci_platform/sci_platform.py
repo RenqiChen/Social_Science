@@ -168,7 +168,7 @@ class Platform:
         return agent
 
     def init_knowledgeBank(self, knowledgeBank_config_dir):
-        knowledge_bank = KnowledgeBank(configs="configs/knowledge_config.json")
+        knowledge_bank = KnowledgeBank(configs=knowledgeBank_config_dir)
 
         # alternatively, we can easily input the configs to add data to RAG
         knowledge_bank.add_data_as_knowledge(
