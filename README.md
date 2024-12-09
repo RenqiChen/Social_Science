@@ -48,10 +48,13 @@ The raw data is based on the [AMiner Computer Science Dataset](https://www.amine
 
 After preprocessing, the used data is publicly available at [Google Drive](https://drive.google.com/drive/folders/1ZwWMBQ5oK-l4VuzMa60GbMND0g2EIxIu?usp=sharing).
 
-- Past paper database is put in the `Papers/papers.tar.gz`, the corresponding embedding database is put in the `Embeddings/faiss_index.index`.
-- Contemporary paper database is put in the `Papers/papers_future.tar.gz`, the corresponding embedding database is put in the `Embeddings/faiss_index_future.index`.
-- Author knowledge bank is put in the `Authors/books.tar`, which is used in in `/home/bingxing2/ailab/group/ai4agr/crq/SciSci/books` of Line 13 in `sci_platform/configs/knowledge_config.json` and `sci_platform/sci_platform.py`.
-- Adjacency matrix is put in the `adjacency.txt`.
+- Past paper database is put in the `Papers/papers.tar.gz`, which is used in `paper_folder_path` of Line 34 in `sci_platform/sci_platform.py`. The corresponding embedding database is put in the `Embeddings/faiss_index.index`, which is used in `cpu_index` of Line 135 in `sci_platform/sci_platform.py`.
+
+- Contemporary paper database is put in the `Papers/papers_future.tar.gz`, which is used in `future_paper_folder_path` of Line 35 in `sci_platform/sci_platform.py`. The corresponding embedding database is put in the `Embeddings/faiss_index_future.index`, which is used in `cpu_future_index` of Line 139 in `sci_platform/sci_platform.py`.
+
+- Author knowledge bank is put in the `Authors/books.tar`, which is used in in `input_dir` of Line 13 in `sci_platform/configs/knowledge_config.json` and `author_info_dir` of Line 36 in `sci_platform/sci_platform.py`.
+
+- Adjacency matrix is put in the `adjacency.txt`, which is used in `adjacency_matrix_dir` of Line 37 in `sci_platform/sci_platform.py`.
 
 #### Note
 
