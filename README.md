@@ -84,7 +84,13 @@ In our experiments, we use `ollama` to deploy the `llama3.1-8b` and `llama3.1-70
 
 #### Run
 
-After pull `llama3.1` model, open the ollama server and run our codes:
+After pull `llama3.1` model, open the ollama server:
+
+```
+./ollama serve
+```
+
+and run our codes:
 
 ```
 cd sci_platform/
