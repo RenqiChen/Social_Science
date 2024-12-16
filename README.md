@@ -42,6 +42,8 @@ cd agentscope-main
 pip install -e .
 ```
 
+Another kind advice is that our code uses `faiss` during execution, and we highly recommend installing `faiss-gpu`.
+
 ### Setup
 
 The raw data is based on the [AMiner Computer Science Dataset](https://www.aminer.cn/aminernetwork).
