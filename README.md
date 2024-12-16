@@ -80,17 +80,41 @@ Here we explain the roles of several critial files.
 
 #### Ollama
 
-In our experiments, we use `ollama` to deploy the `llama3.1-8b` and `llama3.1-70b` model. The details of deployment could refer to [URL](https://github.com/modelscope/agentscope/blob/main/scripts/README.md#ollama).
+In our experiments, we use `ollama` to deploy the `llama3.1-8b` and `llama3.1-70b` model. The details of deployment could refer to [URL](https://github.com/ollama/ollama-python). Here we show some key steps:
 
-#### Run
+1. Ollama should be installed. The linux version:
 
-After pull `llama3.1` model, open the ollama server:
+```
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+2. Run ollama in the path where ollama is installed:
 
 ```
 ./ollama serve
 ```
 
-and run our codes:
+3. Pull a model to use with the library:
+
+```
+./ollama pull llama3.1
+```
+
+4. Install the Ollama Python Library:
+
+```
+pip install ollama
+```
+
+#### Run
+
+After pull `llama3.1` model, you need to open the ollama server before running our codes:
+
+```
+./ollama serve
+```
+
+Then, run our codes:
 
 ```
 cd sci_platform/
