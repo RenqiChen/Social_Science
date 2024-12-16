@@ -100,11 +100,13 @@ curl -fsSL https://ollama.com/install.sh | sh
 ./ollama pull llama3.1
 ```
 
-4. Install the Ollama Python Library:
+4. Install the ollama python library in your environment:
 
 ```
 pip install ollama
 ```
+
+5. Complete the installation and close the terminal.
 
 #### Run
 
