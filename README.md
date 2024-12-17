@@ -1,5 +1,5 @@
 <p align="center">
-  <img src='logo.png' width=800>
+  <img src='logo.png' width=700>
 </p>
 
 # Two Heads Are Better Than One: A Multi-Agent System Has the Potential to Improve Scientific Idea Generation.
